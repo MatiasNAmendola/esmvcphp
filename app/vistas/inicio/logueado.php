@@ -1,0 +1,1 @@
+<p>Bienvenido <?php echo $datos['login']; ?>. Ya estás logueado.</p>

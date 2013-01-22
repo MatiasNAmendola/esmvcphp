@@ -1,0 +1,16 @@
+/* my_mvc/app/controladores */
+Los nombres de las clases controladores y sus métodos se escribirán en minúsculas y con guión bajo para
+separar palabras.
+
+Ejemplo:
+
+clientes
+
+empleados_usuarios
+
+listado
+
+form_modificar
+
+validad_form_modificar
+
