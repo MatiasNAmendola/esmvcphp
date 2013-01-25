@@ -1,0 +1,1 @@
+<p><?php echo $datos['login']; ?>. Te falta hacer la confirmación del email que recibiste.</p>

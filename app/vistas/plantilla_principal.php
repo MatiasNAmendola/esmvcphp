@@ -20,5 +20,10 @@
 				echo "alert('{$datos['alerta']}');"; 
 			?>
 		</script>
+		<div>
+			<pre>
+				<?php print_r($GLOBALS); ?>
+			</pre>
+		</div>
 	</body>
 </html>

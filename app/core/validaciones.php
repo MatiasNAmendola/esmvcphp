@@ -352,7 +352,7 @@ class Validaciones  {
 		// Si hay por lo menos un valor no nulo
 		if ($no_null) {
 			$valores_aportados="";
-			//$modelo=new \datos\Datos_SQL($tabla);
+
 			$parametros["where"]="";
 			for ($i=0; $i<count($columnas); $i++) {
 				if (is_null($valores[$i]) || $valores[$i]=="" || strlen($valores[$i])==0) {
@@ -396,7 +396,7 @@ class Validaciones  {
 		// El primer valor es el id de la fila que se modifica
 		if ($valores[0] != null && $no_null>1) {
 			$valores_aportados = "";
-			// $modelo = new \datos\Datos_SQL($tabla);
+			
 			$parametros["where"]="$columnas[0] != $valores[0] and (";
 			for ($i=1; $i<count($columnas); $i++) {
 				if (is_null($valores[$i]) || $valores[$i]=="" || strlen($valores[$i])==0) {
@@ -439,7 +439,7 @@ class Validaciones  {
 		}
 		if (strlen($valores[0]) && $no_null) {
 			$valores_aportados="";
-			$modelo=new \datos\Datos_SQL($tabla);
+			
 			$parametros["where"]="";
 			for ($i=0; $i<count($columnas); $i++) {
 				if (is_null($valores[$i]) || $valores[$i]=="" || strlen($valores[$i])==0) {
@@ -456,7 +456,7 @@ class Validaciones  {
 				}
 			}
 
-			$filas=$modelo->recuperar_filas($parametros);
+			$filas = \datos\Datos_SQL::select($tabla, $parametros);
 			if (!$filas || !count($filas)) {
 				$msj_error.="El/Los valor/es aportado/s <b>[ $valores_aportados ]</b> no existe/n en la tabla de referencia [$tabla] en las columnas [{$parametros["where"]}] . Escribe un valor que sí exista.";
 			}

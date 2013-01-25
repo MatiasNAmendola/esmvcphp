@@ -1,7 +1,7 @@
 <?php
 namespace controladores;
 
-class inicio extends \core\Controlador
+class mensajes extends \core\Controlador
 {
 	public function index(array $datos = array())
 	{
@@ -9,13 +9,7 @@ class inicio extends \core\Controlador
 		\core\Respuesta::enviar($datos);
 	}
 	
-	public function logueado(array $datos = array())
-	{
-		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
-		\core\Respuesta::enviar($datos);
-	}
-	
-	public function falta_confirmar(array $datos = array())
+	public function ok_alta_usuario_falta_confirmacion(array $datos = array())
 	{
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		\core\Respuesta::enviar($datos);

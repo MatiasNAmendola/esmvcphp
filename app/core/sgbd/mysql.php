@@ -164,9 +164,14 @@ class mysql
 		return self::recuperar_filas($sql);
 	}
 		
+	public static function last_insert_id() {
 		
+		$sql = " select last_insert_id() as id;";
 		
-	
+		$filas = self::recuperar_filas($sql);
+		
+		return $filas[0]['id'];
+	}
 	
 	
 	
