@@ -59,7 +59,13 @@ class usuarios extends \core\Controlador
 		\core\Respuesta::enviar($datos);
 	}
 	
-	public function validar_form_insertar(array $datos = array()) {
+	public function form_insertar_externo(array $datos = array())
+	{
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		\core\Respuesta::enviar($datos);
+	}
+	
+	public function validar_form_insertar_externo(array $datos = array()) {
 		$validaciones = array(
 			'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
 			'email' => 'errores_requerido && errores_email ',
@@ -79,14 +85,12 @@ class usuarios extends \core\Controlador
 			
 			$datos['mensaje'] = 'Se ha grabado correctamente el usuario. Haz la confirmación por correo electronico.';
 			
-			// http://localhost/esmvcphp/?menu=usuarios&submenu=confirmar_alta&id=5&key=10wlskcirmjfmvcndjfk56mfmfmdkfjm4mfmfk
-			$carpeta = str_replace('index.php', '',$_SERVER['SCRIPT_NAME']);			
-			$datos['url'] = "http://{$_SERVER['HTTP_HOST']}$carpeta?menu=usuarios&submenu=confirmar_alta&id={$datos['values']['id']}&key={$datos['values']['clave_confirmacion']}";
-			$this->cargar_controlador('mensajes', 'ok_alta_usuario_falta_confirmacion', $datos);
+			$datos['url'] = \core\URL::http("?menu=usuarios&submenu=confirmar_alta&id={$datos['values']['id']}&key={$datos['values']['clave_confirmacion']}");
+			$this->cargar_controlador('mensajes', 'ok_alta_usuario_falta_confirmacion', $datos);		
 		}
 		else
 		{
-			$this->form_insertar($datos);
+			$this->form_insertar_externo($datos);
 		}
 	}
 	
@@ -125,8 +129,7 @@ class usuarios extends \core\Controlador
 					$resultado = \datos\usuarios::update($datos['values'], 'usuarios');
 					$datos['mensaje'] = "proceso de confirmación completado fecha: {$datos['values']['fecha_confirmacion_alta']}. Ya puedes loquearte";
 					
-					$carpeta = str_replace('index.php', '',$_SERVER['SCRIPT_NAME']);
-					$datos['url_continuar'] = "http://{$_SERVER['HTTP_HOST']}$carpeta?menu=usuarios&submenu=form_login";
+					$datos['url_continuar'] = \core\URL::http("?menu=usuarios&submenu=form_login");
 					$this->cargar_controlador('mensajes', '', $datos);
 					return;
 					
