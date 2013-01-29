@@ -60,16 +60,24 @@ class mysql
 	}
 
 
-	public static function columnas_set(array $datos)
+	public static function columnas_set(array $columnas)
 	{
-		$columnas_set = "";
-		$i = 1;
-		foreach ($datos as $key => $value) 
-		{
-			$columnas_set .="$key = ".(is_numeric($value) ? $value : "'$value'").($i < count($datos) ? ', ' : '');
+		$columnas_set=" ";
+		$i=0;
+		foreach ($columnas as $key => $value) {
+			if ($value=='' || strlen($value)==0 || $value==null)
+				$columnas_set .= "$key = default ";
+			elseif (is_numeric($value))
+				$columnas_set .= "$key = $value ";
+			elseif (strtoupper($value) == 'DEFAULT')
+				$columnas_set .= "$key = $value ";
+			else // suponemos que es una cadena
+				$columnas_set .= "$key = '$value' ";
+
+			if ($i < count($columnas)-1)
+				$columnas_set .= ", ";
 			$i++;
 		}
-		
 		return $columnas_set;
 	}
 	

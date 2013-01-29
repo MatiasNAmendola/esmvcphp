@@ -283,10 +283,10 @@ class Validaciones  {
 		
 		$mensaje_error=false; // Optimista
 		
-		if (!is_null($cadena) && strlen($cadena)) {
+		if ( ! is_null($cadena) && strlen($cadena)) {
 			$patron="/^((\d{1,3}(\.\d{3}){0,}|\d{1,})(\,\d{1,2}){0,1})$/i";
-			if(!preg_match($patron, $cadena))
-				$mensaje_error="-php- Error: El número puede escribirse con separador de miles, coma decimal y máximo dos decimales";
+			if( ! preg_match($patron, $cadena))
+				$mensaje_error="-php- Error: El número puede escribirse con separador de miles(.) y coma decimal(,) y máximo dos decimales";
 		}
 		return $mensaje_error;		
 	}

@@ -30,7 +30,7 @@ class usuarios extends \core\sgbd\bd
 				}		
 			}
 		}
-		echo __METHOD__; var_dump($validacion);
+		//echo __METHOD__; var_dump($validacion);
 		return ($validacion);
 	}
 	

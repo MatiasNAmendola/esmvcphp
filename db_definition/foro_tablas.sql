@@ -38,3 +38,23 @@ fecha_alta timestamp default current_timestamp(),
 fecha_confirmacion_alta datetime default null
 ;
 */
+
+drop table if exists foro_articulos;
+create table if not exists foro_articulos
+( id integer auto_increment
+, nombre varchar(100) not null
+, precio decimal(12,2) null default null
+, unidades_stock decimal(12,2) null default null
+, primary key (id)
+, unique (nombre)
+)
+engine=innodb default charset=utf8
+;
+
+insert into foro_articulos
+  ( nombre,precio ) values
+  ('leche', null)
+, ('mantequilla', 12.1234)
+, ('arroz', 1234567890.12)
+, ('zurracapote', 10)
+;
