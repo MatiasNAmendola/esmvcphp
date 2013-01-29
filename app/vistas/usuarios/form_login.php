@@ -5,8 +5,8 @@
 	Contraseña: <input id='contrasena' name='contrasena' type='password' size='30' value=''/>
 	<br />
 	<?php
-		if (isset($datos['error_validacion']))
-			echo "<span style='color: red;'>{$datos['error_validacion']}</span><br />";
+		if (isset($datos['errores']['validacion']))
+			echo "<span style='color: red;'>{$datos['errores']['validacion']}</span><br />";
 	?>
 	<input type='submit' value='enviar'>
 </form>

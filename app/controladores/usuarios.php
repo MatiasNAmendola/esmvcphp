@@ -20,21 +20,36 @@ class usuarios extends \core\Controlador
 	
 	public function validar_form_login(array $datos = array())
 	{
-		$respuesta =  \datos\usuarios::validar_usuario( \core\CGI::post('login') , \core\CGI::post('contrasena'));
-		if  ($respuesta == 'existe') {
-				$datos['error_validacion'] = 'Error en usuario o contraseña';
-				$this->form_login($datos);
+		$validaciones = array(
+			'login' => 'errores_requerido',
+			'contrasena' => 'errores_requerido'
+		);
+		
+		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if ($validacion)
+		{		
+			$respuesta =  \datos\usuarios::validar_usuario($datos['values']['login'], $datos['values']['contrasena']);
+			if  ($respuesta == 'existe') {
+					$datos['error_validacion'] = 'Error en usuario o contraseña';
+					$this->form_login($datos);
+			}
+			elseif ($respuesta == 'existe_autenticado') {
+					$datos['login'] = $datos['values']['login'];
+					$this->cargar_controlador('inicio', 'falta_confirmar', $datos);
+			}
+			elseif ($respuesta == 'existe_autenticado_confirmado') {
+					$datos['login'] = $datos['values']['login'];
+					\core\Usuario::nuevo($datos['values']['login']);
+					$this->cargar_controlador('inicio', 'logueado', $datos);
+			}
+			else
+					echo __METHOD__." '$respuesta'";
 		}
-		elseif ($respuesta == 'existe_autenticado') {
-				$datos['login'] = \core\CGI::post('login');
-				$this->cargar_controlador('inicio', 'falta_confirmar', $datos);
+		else {
+			print_r($datos);
+			$datos['errores']['validacion'] = 'Error de usuario o contraseña';
+			$this->form_login($datos);
 		}
-		elseif ($respuesta == 'existe_autenticado_confirmado') {
-				$datos['login'] = \core\CGI::post('login');
-				$this->cargar_controlador('inicio', 'logueado', $datos);
-		}
-		else
-				echo __METHOD__." '$respuesta'";
 	}
 	
 	
@@ -131,20 +146,25 @@ class usuarios extends \core\Controlador
 					
 					$datos['url_continuar'] = \core\URL::http("?menu=usuarios&submenu=form_login");
 					$this->cargar_controlador('mensajes', '', $datos);
-					return;
-					
-					
-					
+					return;		
 				}		
-			}
-			
-			
-		}
-				
-		
-		
+			}	
+		}	
 	} // Fin de método
 	
+	
+	
+	
+	public function desconectar(array $datos = array()) {
+		
+		\core\Usuario::cerrar_sesion();
+		
+		$datos['mensaje'] = 'Adios';
+		$datos['url_continuar'] = \core\URL::http('?menu=inicio&submenu=');
+		
+		$this->cargar_controlador('mensajes', '', $datos);
+		
+	}
 	
 	
 } // Fin de la clase

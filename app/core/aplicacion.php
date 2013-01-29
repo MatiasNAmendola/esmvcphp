@@ -12,6 +12,10 @@ class Aplicacion extends \core\Clase_Base
 	public static $controlador;
 	
 	public function __construct() {
+		
+		\core\SESSION::iniciar();
+		
+		\core\Usuario::iniciar();
 			
 		\core\sgbd\bd::conectar();
 		
