@@ -12,10 +12,29 @@ class Clase_Base
 	public function cargar_controlador($controlador, $metodo, array $datos = array())
 	{
 		if ( ! $controlador )
-			$controlador = \core\Configuracion::$controlador_por_defecto;
+			$controlador = strtolower (\core\Configuracion::$controlador_por_defecto);
 		if ( ! $metodo )
 			$metodo = \core\Configuracion::$metodo_por_defecto;
 		$metodo = strtolower($metodo);
+		
+		if (\core\Permisos::comprobar(\core\Usuario::$login, $controlador, $metodo) === false ) {
+			if (\core\Usuario::$login == 'anonimo') {
+				$controlador = 'usuarios';
+				$metodo = 'form_login';
+			}
+			else {
+				$datos['mensaje'] = "No tienes permisos para esta opción [$controlador][$metodo].";
+				$controlador = 'mensajes';
+				$metodo = 'index';
+			}
+		}
+		elseif (\core\Permisos::comprobar(\core\Usuario::$login, $controlador, $metodo) === null ) {
+				$datos['mensaje'] = "Permiso no definido el la lista ACL en \core\Permisos. No está [$controlador][*] ni [$controlador][$metodo].";
+				$controlador = 'mensajes';
+				$metodo = 'index';
+		}
+		
+		
 		
 		$fichero_controlador = strtolower(PATH_APP."controladores/$controlador.php");
 		$controlador_clase = strtolower("\\controladores\\$controlador");

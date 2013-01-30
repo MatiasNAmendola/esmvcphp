@@ -29,7 +29,7 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8
 insert into foro_usuarios values
   (default, 'admin', 'admin@email.com', md5('admin00'), default, now(), null)
 , (default, 'juan', 'juan@email.com', md5('juan00'), default, now(), null)
-, (default, 'anais', 'anais@email.com', md5('anais00'), default, null, '1234567890')
+, (default, 'anais', 'anais@email.com', md5('anais00'), default, now(), null)
 ;
 
 /*
