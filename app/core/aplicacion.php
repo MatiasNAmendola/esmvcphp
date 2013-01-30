@@ -4,7 +4,9 @@ namespace core;
 /**
  * Aplicación principal
  *
- * @author jequeto
+ *
+ * @author Jesús María de Quevedo Tomé <jequeto@gmail.com>
+ * @since 20130130
  */
 class Aplicacion extends \core\Clase_Base 
 {

@@ -1,6 +1,10 @@
 <?php
 namespace core;
 
+/**
+ * @author Jesús María de Quevedo Tomé <jequeto@gmail.com>
+ * @since 20130130
+ */
 class Clase_Base
 {
 	/**
@@ -17,6 +21,7 @@ class Clase_Base
 			$metodo = \core\Configuracion::$metodo_por_defecto;
 		$metodo = strtolower($metodo);
 		
+		// Comprobamos que el usuario tiene permisos. Si no los tiene se redirige hacia otro controlador.
 		if (\core\Permisos::comprobar(\core\Usuario::$login, $controlador, $metodo) === false ) {
 			if (\core\Usuario::$login == 'anonimo') {
 				$controlador = 'usuarios';

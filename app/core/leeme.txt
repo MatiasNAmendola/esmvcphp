@@ -1,0 +1,5 @@
+En la carpeta .../core
+estarán todas las clases que conforman la filososfía del framework.
+El nombre de los ficheros estará en minúsculas y separando palabras mediante guión bajo.
+
+El nombre de las clases estará con la primera letra de cada palabra en mayúsculas y las palabras unidas por guión bajo.

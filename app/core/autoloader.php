@@ -5,6 +5,9 @@ namespace core;
  * Esta clase define un autocargador que cargará correctamente clases que se instancien así new \nombre_namespace\nombre_clase(), donde nombre_namespace será el nombre del namespace del fichero que contiene la clase, y también será el nombre de la carpeta contenida en ...\app y que contiene el fichero php con la clase (...\app\nombre_namespace\nombre_clase.php)
  * 
  * Exige que el nombre de todas las carpetas y de todos los ficheros estén escritos en minúsculas.
+ *
+ * @author Jesús María de Quevedo Tomé <jequeto@gmail.com>
+ * @since 20130130
  */
 class Autoloader 
 {
