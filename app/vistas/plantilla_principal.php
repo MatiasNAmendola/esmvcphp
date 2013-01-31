@@ -15,11 +15,13 @@
 		<meta http-equiv="Content-Type" content="text/html;charset=utf8" /> 
 
 		<link rel="stylesheet" type="text/css" href="" />
+		<?php echo \core\Respuesta::css_links(); ?>
 		<style type="text/css" >
 		/* Hoja de estilos interna */
 		</style>
 
 		<script type="text/javascript" src=""></script>
+		<?php echo \core\Respuesta::js_scripts(); ?>
 		<script type="text/javascript" >
 		/* líneas del script */
 		</script>
