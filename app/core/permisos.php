@@ -30,8 +30,8 @@ class Permisos {
 		self::$recursos['usuarios']['*'] = ' juan pedro ';
 		self::$recursos['usuarios']['index'] = ' anais ana olga ';
 		self::$recursos['usuarios']['desconectar'] = ' ** ';
-		self::$recursos['usuarios']['form_login'] = ' anonimo ';
-		self::$recursos['usuarios']['validar_form_login'] = ' anonimo ';
+		self::$recursos['usuarios']['form_login_email'] = ' anonimo ';
+		self::$recursos['usuarios']['validar_form_login_email'] = ' anonimo ';
 		//print_r(self::$recursos);
 	}
 	

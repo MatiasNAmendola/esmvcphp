@@ -15,13 +15,23 @@
 		<meta http-equiv="Content-Type" content="text/html;charset=utf8" /> 
 
 		<link rel="stylesheet" type="text/css" href="" />
-		<?php echo \core\Respuesta::css_links(); ?>
+		<?php
+		if (isset($datos['css']))
+			foreach ($datos['css'] as $css_link => $value) {
+				echo "$css_link";	
+			}
+		?>
 		<style type="text/css" >
 		/* Hoja de estilos interna */
 		</style>
 
 		<script type="text/javascript" src=""></script>
-		<?php echo \core\Respuesta::js_scripts(); ?>
+		<?php 
+		if (isset($datos['js']))
+			foreach ($datos['js'] as $js_script => $value) {
+				echo "$js_script";	
+			}
+		?>
 		<script type="text/javascript" >
 		/* líneas del script */
 		</script>
@@ -46,7 +56,7 @@
 			<a href='?menu=articulos'>Artículos</a>
 			<?php 
 				if (\core\Usuario::$login == 'anonimo')
-					echo "<a href='?menu=usuarios&submenu=form_login' style='float: right;'>Conectar</a>";
+					echo "<a href='?menu=usuarios&submenu=form_login_email' style='float: right;'>Conectar</a>";
 			?>
 		</div>
 		<div id='contenido_principal' >

@@ -53,6 +53,54 @@ class usuarios extends \core\Controlador
 	}
 	
 	
+	public function form_login_email(array $datos = array())
+	{
+		$datos['js'][self::js_script_tag(__FUNCTION__)] = self::js_script_tag(__FUNCTION__);
+		$datos['js'][self::js_script_lib_tag('jquery/jquery-1.6.4.min.js')] = self::js_script_lib_tag('jquery/jquery-1.6.4.min.js');
+		print_r($datos);
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		\core\Respuesta::enviar($datos);
+	}
+	
+	
+	
+	public function validar_form_login_email(array $datos = array())
+	{
+		$validaciones = array(
+			'login' => 'errores_texto',
+			'email' => 'errores_email',
+			'contrasena' => 'errores_requerido'
+		);
+		
+		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if ($validacion)
+		{		
+			$respuesta =  \datos\usuarios::validar_usuario_login_email($datos['values']);
+			if  ($respuesta == 'existe') {
+					$datos['error_validacion'] = 'Error en usuario o contraseña';
+					$this->form_login($datos);
+			}
+			elseif ($respuesta == 'existe_autenticado') {
+					$datos['login'] = $datos['values']['login'];
+					$this->cargar_controlador('inicio', 'falta_confirmar', $datos);
+			}
+			elseif ($respuesta == 'existe_autenticado_confirmado') {
+					$datos['login'] = $datos['values']['login'];
+					\core\Usuario::nuevo($datos['values']['login']);
+					$this->cargar_controlador('inicio', 'logueado', $datos);
+			}
+			else
+					echo __METHOD__." REspuesta de valicacion: '$respuesta'";
+		}
+		else {
+			//print_r($datos);
+			$datos['errores']['validacion'] = 'Corrige los errores.';
+			$this->form_login_email($datos);
+		}
+	}
+	
+	
+	
 	
 	public function validar_form_modificar(array $datos = array())
 	{

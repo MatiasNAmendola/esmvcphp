@@ -75,7 +75,7 @@ class Clase_Base
 	 */
 	public function contenido($indice, $array)
 	{
-		if ( ! is_string($indice) && !is_infinite($indice))
+		if ( ! is_string($indice) && ! is_integer($indice))
 			throw new \Exception(__METHOD__." Error: parámetro \$indice=$indice debe ser entero o string");
 		elseif ( !is_array($array))
 			throw new \Exception(__METHOD__." Error: parámetro \$array debe ser un array");

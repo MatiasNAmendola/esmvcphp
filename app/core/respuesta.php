@@ -1,7 +1,10 @@
 <?php
 namespace core;
+
+
 class Respuesta extends \core\Clase_Base
 {
+	
 	public static function enviar(array $datos=array(), $plantilla = null)
 	{
 		if ( ! $plantilla)
@@ -11,4 +14,8 @@ class Respuesta extends \core\Clase_Base
 			throw new \Exception(__METHOD__." Error: no existe el fichero $fichero_plantilla .");
 		include $fichero_plantilla;
 	}
+	
+	
+	
+	
 }
