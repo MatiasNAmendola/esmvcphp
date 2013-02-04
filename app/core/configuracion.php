@@ -17,4 +17,36 @@ class Configuracion
 		'prefix_'  => 'foro_'
 	);
 	
+	/**
+	 * Define array llamado recursos_y_suariosla con la definición de todos los permisos de acceso a los recursos de la aplicación.
+	 * * Recursos:
+	 *  [*][*] define todos los recursos
+	 *  [controlador][*] define todos los métodos de un controlador
+	 * Usuarios:
+	 *  * define todos los usuarios (anonimo más logueados)
+	 *  ** define todos los usuarios logueados (anonimo no está incluido)
+	 * 
+	 * @var array =('controlador' => array('metodo' => ' nombres usuarios rodeados por espacios
+	 */
+	public static $recursos_y_usuarios = array(
+		'*' =>	array(
+					'*' => ' admin '
+				),
+		'inicio' => array (
+						'*' => ' ** ',
+						'index' => ' * ',
+					),
+	
+		'mensajes' => array(
+							'*' => ' * ',
+							),
+		'usuarios' => array(
+							'*' => ' juan pedro ',
+							'index' => ' anais ana olga ',
+							'desconectar' => ' ** ',
+							'form_login_email' => ' anonimo ',
+							'validar_form_login_email' => ' anonimo ',
+							)
+	
+	);
 } // Fin de la clase 

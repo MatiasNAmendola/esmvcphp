@@ -5,7 +5,9 @@ class Usuario extends \core\Clase_Base {
 	
 	public static $login = 'anonimo';
 	
-	
+	/**
+	 * Reconocer el usuario que ha iniciado la sesión de trabajo o que continúan dentro de una sesión de trabajo.
+	 */
 	public static function iniciar() {
 		
 		if (isset($_SESSION['usuario']['login'])) {

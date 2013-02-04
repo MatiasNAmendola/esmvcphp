@@ -17,6 +17,7 @@ class Aplicacion extends \core\Clase_Base
 		
 		\core\SESSION::iniciar();
 		
+		// Reconocer el usuario que ha iniciado la sesión de trabajo o que continúan dentro de una sesión de trabajo.
 		\core\Usuario::iniciar();
 		
 		\core\Permisos::iniciar();

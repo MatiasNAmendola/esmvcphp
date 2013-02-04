@@ -42,7 +42,8 @@
 			<h1>Aplicación my MVC</h1>
 		</div>
 		<div id='header-right' style='width: 50%; float: right; text-align: right;'>
-			Usuario: <?php echo \core\Usuario::$login;
+			Usuario: <?php 
+							echo \core\Usuario::$login;
 							if (\core\Usuario::$login != 'anonimo')
 								echo " (<a href='?menu=usuarios&submenu=desconectar'>desconectar</a>)";
 							if (isset($_SESSION['usuario']['contador_paginas_visitadas']))
@@ -65,17 +66,20 @@
 			<?php echo $datos['contenido_principal']; ?>
 			</fieldset>
 		</div>
-		<script type='text/javascript'>
-			<?php 
-				if (isset($datos['alerta']))
-				echo "alert('{$datos['alerta']}');"; 
-			?>
-		</script>
+		
 		<div style='margin-top: 10px; border: 1px solid grey; background-color: lightgrey;'>
 			<h3>Información de arrays globales y variables globales definidas por el usuario. $GLOBALS =</h3>
 			<pre>
 				<?php print_r($GLOBALS); ?>
 			</pre>
 		</div>
+		
+		<script type='text/javascript'>
+			<?php 
+				if (isset($datos['alerta']))
+				echo "alert('{$datos['alerta']}');"; 
+			?>
+		</script>
+		
 	</body>
 </html>

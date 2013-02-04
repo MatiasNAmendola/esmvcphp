@@ -20,9 +20,22 @@ class Permisos {
 	 */
 	private static $recursos;
 	
+	
+	
+	/**
+	 * Carga en un array llamado recursos la definición de todos los permisos de acceso a los recursos de la aplicación.
+	 * * Recursos:
+	 *  [*][*] define todos los recursos
+	 *  [controlador][*] define todos los métodos de un controlador
+	 * Usuarios:
+	 *  * define todos los usuarios (anonimo más logueados)
+	 *  ** define todos los usuarios logueados (anonimo no está incluido)
+	 * Estructura del arrray $recursos = array =('controlador' => array('metodo' => ' nombres usuarios rodeados por espacios
+	 */
 	public static function iniciar() {
 		// * todos los usuarios incluido anonimo
 		// ** todos los usuarios logueados, excluye a anonimo
+		/*
 		self::$recursos['*']['*'] = ' admin ';
 		self::$recursos['inicio']['*'] = ' ** ';
 		self::$recursos['inicio']['index'] = ' * ';
@@ -33,6 +46,9 @@ class Permisos {
 		self::$recursos['usuarios']['form_login_email'] = ' anonimo ';
 		self::$recursos['usuarios']['validar_form_login_email'] = ' anonimo ';
 		//print_r(self::$recursos);
+		*/
+		self::$recursos = \core\Configuracion::$recursos_y_usuarios;
+		
 	}
 	
 	/**
@@ -62,10 +78,10 @@ class Permisos {
 		// El usuario o todos los usuarios tienen acceso al controlador y método determinado
 		elseif (isset(self::$recursos[$controlador][$metodo]) && (preg_match($usuario, self::$recursos[$controlador][$metodo]) or preg_match($todos, self::$recursos[$controlador][$metodo])))
 			$autorizado = true;	
-		// El usuario logueado tienen acceso al controlador y todos sus métodos
+		// Los usuarios logueados tienen acceso al controlador y todos sus métodos
 		elseif (isset(self::$recursos[$controlador]['*']) && $login != 'anonimo' && preg_match($logueados, self::$recursos[$controlador]['*']) )
 			$autorizado = true;	
-		// El usuario logueado tienen acceso al controlador y método determinado
+		// Los usuarios logueados tienen acceso al controlador y método determinado
 		elseif (isset(self::$recursos[$controlador][$metodo]) && $login != 'anonimo' &&  preg_match($logueados, self::$recursos[$controlador][$metodo]))
 			$autorizado = true;	
 		// El [controlador] y [metodo] determinado no están detallados en la relación de permisos ni el [controlador][*] (y todos sus métodos), por lo tanto no se sabe si tendría autorización de estar incluidos.

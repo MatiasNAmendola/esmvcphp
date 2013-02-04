@@ -48,7 +48,7 @@ class Validaciones  {
 	 * @return array("values"=>array("parametro"=>valor,...),"errores"=>array("parametro"=>"mesaje&nbsp;de&nbsp;errore",...)
 	 */
 	public static function errores_validacion_request(array $validaciones, array &$datos=null) {
-		$resultados_validacion=array("values"=>array(), "errores"=>array()); // Array para guardar la validación
+		$resultados_validacion = array("values" => array(), "errores" => array()); // Array para guardar la validación
 		// Tratamos cada una de las validaciones del array $validaciones
 		foreach ($validaciones as $columna => $validacion)
 		{
@@ -136,8 +136,8 @@ class Validaciones  {
 			echo "<!-- ";
 		}
 		if (is_array($datos)) { // Si se aporta $datos y es array
-			$datos["values"]=$resultados_validacion["values"];
-			$datos["errores"]=$resultados_validacion["errores"];
+			$datos["values"] = $resultados_validacion["values"];
+			$datos["errores"] = $resultados_validacion["errores"];
 			return(count($datos["errores"]));
 		}			
 		else

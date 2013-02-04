@@ -42,8 +42,8 @@ class Controlador extends \core\Clase_Base
 		if ( ! preg_match('/\.css$/i', $nombre_fichero))
 			$nombre_fichero .= '.css';
 		$url_css_fichero = \core\URL::http('')."app/vistas/".\core\Aplicacion::$controlador->datos['nombre']."/$nombre_fichero";
-		$js_link_tag = "<link rel='stylesheet' type='text/css' href='$url_css_fichero' />\n";
-		return $js_link_tag;
+		$css_link_tag = "<link rel='stylesheet' type='text/css' href='$url_css_fichero' />\n";
+		return $css_link_tag;
 		
 	}
 	
