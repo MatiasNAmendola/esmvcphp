@@ -3,6 +3,10 @@ namespace controladores;
 
 class inicio extends \core\Controlador
 {
+	/**
+	 * 
+	 * @param array $datos
+	 */
 	public function index(array $datos = array())
 	{
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);

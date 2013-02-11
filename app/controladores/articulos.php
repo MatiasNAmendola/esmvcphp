@@ -57,7 +57,7 @@ class articulos extends \core\Controlador {
 	public function form_modificar(array $datos=array()) {
 		if ( ! count($datos)) { // Si no es un reenvío desde una validación fallida
 			$validaciones=array(
-				"id" => "errores_requerido && errores_referencia:id/articulos/id"
+				"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/articulos/id"
 			);
 			if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 				$datos['mensaje'] = 'Datos erróneos para identificar el artículo a modificar';
@@ -86,7 +86,7 @@ class articulos extends \core\Controlador {
 	public function validar_form_modificar(array $datos=array())
 	{	
 		$validaciones=array(
-			 "id" => "errores_requerido && errores_referencia:id/articulos/id"
+			 "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/articulos/id"
 			, "nombre" =>"errores_requerido && errores_texto && errores_unicidad_modificar:id,nombre/articulos/nombre,id"
 			, "precio" => "errores_precio"
 			, "unidades_stock" => "errores_precio"
@@ -116,7 +116,7 @@ class articulos extends \core\Controlador {
 	public function form_borrar(array $datos=array()) {
 		
 		$validaciones=array(
-			"id" => "errores_requerido && errores_referencia:id/articulos/id"
+			"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/articulos/id"
 		);
 		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Datos erróneos para identificar el artículo a borrar';
@@ -145,7 +145,7 @@ class articulos extends \core\Controlador {
 	public function validar_form_borrar(array $datos=array())
 	{	
 		$validaciones=array(
-			 "id" => "errores_requerido && errores_referencia:id/articulos/id"
+			 "id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/articulos/id"
 		);
 		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Datos erróneos para identificar el artículo a borrar';

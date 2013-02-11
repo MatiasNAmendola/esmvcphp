@@ -1,6 +1,7 @@
 <div >
 	<h2>Alta de un nuevo usuario</h2>
 <form method='post' action="?menu=usuarios&submenu=validar_form_insertar" >
+	<input id='id'  name='id' type='hidden' value='<?php echo \core\Array_Datos::values('id', $datos); ?>' />
 	Login: <input id='login' name='login' type='text' size='30'  maxlength='30' value='<?php echo \core\Array_Datos::values("login", $datos); ?>'/>
 	<br />
 	<?php 

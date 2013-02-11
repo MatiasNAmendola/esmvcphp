@@ -6,11 +6,13 @@ class mysql
 	protected static $depuracion = false;
 	public static $conexion;
 	public static $prefix_;
+	public static $tabla;
 	public static $resultado;
 	
-	public function __construct($tabla)
+	public function __construct($tabla = null)
 	{
-		;
+		if ( is_string($tabla) && strlen($tabla))
+			self::$tabla = $tabla;
 	}
 
 
@@ -34,10 +36,14 @@ class mysql
 		if (self::$depuracion) var_dump(self::$conexion);
 	}
 	
+	
+	
 	public static function desconectar()
 	{
 		$ok = mysql_close(self::$conexion);
 	}
+	
+	
 	
 	public static function ejecutar_consulta($sql)
 	{
@@ -49,6 +55,8 @@ class mysql
 		return self::$resultado;
 	}
 	
+	
+	
 	public static function recuperar_filas($sql = null)
 	{
 		if ($sql)
@@ -56,10 +64,12 @@ class mysql
 		$filas = array();
 		while ($fila = mysql_fetch_assoc(self::$resultado))
 			array_push($filas,$fila);
+		mysql_freeresult(self::$resultado);
 		return $filas;
 	}
 
 
+	
 	public static function columnas_set(array $columnas)
 	{
 		$columnas_set=" ";
@@ -80,6 +90,7 @@ class mysql
 		}
 		return $columnas_set;
 	}
+	
 	
 	
 	public static function insert($datos , $tabla)
@@ -116,6 +127,8 @@ class mysql
 		return self::ejecutar_consulta($sql);
 	}
 	
+	
+	
 	public static function delete($datos , $tabla)
 	{
 		if ( ! isset($datos['id']))
@@ -130,6 +143,8 @@ class mysql
 		
 		return self::ejecutar_consulta($sql);
 	}
+	
+	
 	
 	/**
 	 * Inserta una fila en una tabla.
@@ -150,13 +165,9 @@ class mysql
 	)
 	{
 		$columnas = ((isset($clausulas['columnas']) and strlen($clausulas['columnas'])) ? $clausulas['columnas'] : '*');
-		
 		$where = ((isset($clausulas['where']) and strlen($clausulas['where'])) ? "where ".$clausulas['where'] : '');
-		
-		$order_by = ((isset($clausulas['order_by']) and strlen($clausulas['order_by'])) ? "order by ".$clausulas['order_by'] : '');
-		
+		$order_by = ((isset($clausulas['order_by']) and strlen($clausulas['order_by'])) ? "order by ".$clausulas['order_by'] : '');	
 		$group_by = ((isset($clausulas['group_by']) and strlen($clausulas['group_by'])) ? "group by ".$clausulas['group_by'] : '');
-		
 		$having = ((isset($clausulas['having']) and strlen($clausulas['having'])) ? "having ".$clausulas['having'] : '');
 		
 		$sql = "
@@ -171,7 +182,9 @@ class mysql
 		
 		return self::recuperar_filas($sql);
 	}
-		
+	
+	
+	
 	public static function last_insert_id() {
 		
 		$sql = " select last_insert_id() as id;";

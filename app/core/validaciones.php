@@ -48,6 +48,7 @@ class Validaciones  {
 	 * @return array("values"=>array("parametro"=>valor,...),"errores"=>array("parametro"=>"mesaje&nbsp;de&nbsp;errore",...)
 	 */
 	public static function errores_validacion_request(array $validaciones, array &$datos=null) {
+		
 		$resultados_validacion = array("values" => array(), "errores" => array()); // Array para guardar la validación
 		// Tratamos cada una de las validaciones del array $validaciones
 		foreach ($validaciones as $columna => $validacion)
@@ -155,8 +156,8 @@ class Validaciones  {
 		$input = mysql_real_escape_string($input);
 		// si $datos[$key]==false hay error en la aplicación de los caracteres de escape
 		preg_replace (
-			array('/insert/i' , '/select/i' ,'/update/i' ,'/delete/i' ,'/script/i' ,'/truncate/i','/union/i'  )
-			,array('/insert_/i', '/select_/i','/update_/i','/delete_/i','/script_/i','/truncate_/i','/union_/i' )
+			array('/insert/i' , '/select/i' ,'/update/i' ,'/delete/i' ,'/script/i' ,'/truncate/i','/union/i', '/\;/i'   )
+			,array('/insert_/i', '/select_/i','/update_/i','/delete_/i','/script_/i','/truncate_/i','/union_/i', '/\\;/i'  )
 			,$input
 		);
 		return $input;
@@ -269,9 +270,25 @@ class Validaciones  {
 	} // Fin método
 
 
+	/**
+	 * Un número entero positivo válido, positivo sin signo.
+	 * @param string $cadena
+	 */
+	public static function errores_numero_entero_positivo($cadena=null) {
+		$mensaje="";
+		if ($cadena!=null ) {
+			$patron = '/[^0-9]/'; // equivalente a '/\D/'
+			if (preg_match($patron, $cadena)) {
+				$mensaje.="Contiene caracteres no válidos. Sólo se admiten números positivos sin signo. ";
+			}
+		}
+		if ($mensaje=="") $mensaje=false;
+		return $mensaje;
+	}
+
 	
 	
-		/**
+	/**
 	 * Valida un precio en formato europeo, con el . como separador de miles y la , como separador decimal, máximo 2 decimales. También da por válid un número sin separador de miles.
 	 * Ejemplo 10.001,26 10001,26
 	 * 

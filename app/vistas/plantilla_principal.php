@@ -63,7 +63,7 @@
 		<div id='contenido_principal' >
 			<fieldset style='margin-top: 10px; border: 2px solid blue; background-color: lightskyblue;'>
 				<legend>Vista</legend>
-			<?php echo $datos['contenido_principal']; ?>
+			<?php echo ( isset($datos['contenido_principal']) ? $datos['contenido_principal'] : ''); ?>
 			</fieldset>
 		</div>
 		

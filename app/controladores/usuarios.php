@@ -1,12 +1,17 @@
 <?php
 namespace controladores;
 
+
+if ( ! defined('PATH_APP')) 
+	exit('FORBIDEN');
+
 class usuarios extends \core\Controlador
 {
 	public function index(array $datos = array())
 	{
 		$clausulas['order_by'] = 'login';
 		$datos['filas'] = \datos\usuarios::select('usuarios', $clausulas);
+		
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		\core\Respuesta::enviar($datos);
 		
@@ -21,8 +26,8 @@ class usuarios extends \core\Controlador
 	public function validar_form_login(array $datos = array())
 	{
 		$validaciones = array(
-			'login' => 'errores_requerido',
-			'contrasena' => 'errores_requerido'
+			'login' => 'errores_requerido && errores_login',
+			'contrasena => errores_requerido && errores_contrasena'
 		);
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
@@ -77,6 +82,17 @@ class usuarios extends \core\Controlador
 		);
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if ($validacion)
+		{		
+			if ( ! strlen($datos['values']['login']) && ! strlen($datos['values']['login'])) {
+				$datos['errores']['validacion'] = 'Introduce el login o el dni';
+				$validacion = false;
+			}
+			elseif ( ! strlen($datos['values']['login']) && ! strlen($datos['values']['login'])) {
+				$datos['errores']['validacion'] = 'Introduce solo uno de los dos: login o el dni';
+				$validacion = false;
+			}
+		}
 		if ($validacion)
 		{		
 			$respuesta =  \datos\usuarios::validar_usuario_login_email($datos['values']);

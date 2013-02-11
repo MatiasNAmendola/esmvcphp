@@ -22,6 +22,7 @@ class Clase_Base
 		$metodo = strtolower($metodo);
 		
 		// Comprobamos que el usuario tiene permisos. Si no los tiene se redirige hacia otro controlador.
+		
 		if (\core\Permisos::comprobar(\core\Usuario::$login, $controlador, $metodo) === false ) {
 			if (\core\Usuario::$login == 'anonimo') {
 				$controlador = 'usuarios';
