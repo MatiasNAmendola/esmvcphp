@@ -1,7 +1,7 @@
 <?php
 namespace datos;
 
-class empleados extends \core\sgbd\bd
+class usuarios extends \core\sgbd\bd
 {
 		
 }
