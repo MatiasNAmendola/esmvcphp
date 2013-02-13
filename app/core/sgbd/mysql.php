@@ -3,7 +3,7 @@ namespace core\sgbd;
 
 class mysql
 {
-	protected static $depuracion = false;
+	protected static $depuracion = true;
 	public static $conexion;
 	public static $prefix_;
 	public static $tabla;

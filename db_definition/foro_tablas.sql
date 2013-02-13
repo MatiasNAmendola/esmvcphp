@@ -183,7 +183,6 @@ insert into foro_recursos
 , ('usuarios'		,'validar_form_login')
 
 
-
 ;
 
 insert into foro_roles_permisos
@@ -205,4 +204,5 @@ insert into foro_usuarios_permisos
   (login			,controlador			,metodo) values
   ('anonimo'		,'usuarios'				,'form_login')
 , ('anonimo'		,'usuarios'				,'validar_form_login')
+, ('anais'			,'articulos'			,'index')
 ;

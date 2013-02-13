@@ -47,8 +47,6 @@ class usuarios extends \core\Controlador
 					\core\Usuario::nuevo($datos['values']['login']);
 					$this->cargar_controlador('inicio', 'logueado', $datos);
 			}
-			else
-					$datos['errores']['validacion'] = 'Error en usuario o contraseña';
 		}
 		else {
 			$datos['errores']['validacion'] = 'Error de usuario o contraseña';

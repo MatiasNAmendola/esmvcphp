@@ -43,9 +43,19 @@
 		</div>
 		<div id='header-right' style='width: 50%; float: right; text-align: right;'>
 			Usuario: <?php 
-							echo \core\Usuario::$login;
+							echo "<b>".\core\Usuario::$login."</b>";
 							if (\core\Usuario::$login != 'anonimo')
 								echo " (<a href='?menu=usuarios&submenu=desconectar'>desconectar</a>)";
+							if (\core\Usuario::$login != 'anonimo') {
+								echo "<br />Tiempo máximo de sesión = ".date('i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60);
+								echo "<br />Tiempo máximo de inactividad = ".date('i:s', \core\Configuracion::$sesion_minutos_inactividad *60);
+							}
+							// Para todos los usuarios
+							echo "<br />Tiempo transcurrido desde anterior petición = ".date('i:s', \core\Usuario::$sesion_segundos_inactividad);
+							echo "<br />Tiempo desde conexión = ".date('i:s', \core\Usuario::$sesion_segundos_duracion);
+							if (\core\Usuario::$login != 'anonimo') {
+								echo "<br />Tiempo restante de sesión = ".date('i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60 - \core\Usuario::$sesion_segundos_duracion);
+							}
 							if (isset($_SESSION['usuario']['contador_paginas_visitadas']))
 								echo "<br />Páginas visitadas: [{$_SESSION['usuario']['contador_paginas_visitadas']}]";
 					?>
@@ -67,7 +77,7 @@
 			</fieldset>
 		</div>
 		
-		<div style='margin-top: 10px; border: 1px solid grey; background-color: lightgrey;'>
+		<div style='margin-top: 10px; padding: 5px; border: 1px solid grey; background-color: lightgrey;'>
 			<h3>Información de arrays globales y variables globales definidas por el usuario. $GLOBALS =</h3>
 			<pre>
 				<?php print_r($GLOBALS); ?>
