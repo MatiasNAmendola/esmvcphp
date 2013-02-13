@@ -47,14 +47,14 @@
 							if (\core\Usuario::$login != 'anonimo')
 								echo " (<a href='?menu=usuarios&submenu=desconectar'>desconectar</a>)";
 							if (\core\Usuario::$login != 'anonimo') {
-								echo "<br />Tiempo máximo de sesión = ".date('i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60);
-								echo "<br />Tiempo máximo de inactividad = ".date('i:s', \core\Configuracion::$sesion_minutos_inactividad *60);
+								echo "<br />Tiempo máximo de sesión = ".date('h:i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60);
+								echo "<br />Tiempo máximo de inactividad = ".date('h:i:s', \core\Configuracion::$sesion_minutos_inactividad *60);
 							}
 							// Para todos los usuarios
-							echo "<br />Tiempo transcurrido desde anterior petición = ".date('i:s', \core\Usuario::$sesion_segundos_inactividad);
-							echo "<br />Tiempo desde conexión = ".date('i:s', \core\Usuario::$sesion_segundos_duracion);
+							echo "<br />Tiempo transcurrido desde anterior petición = ".date('h:i:s', \core\Usuario::$sesion_segundos_inactividad);
+							echo "<br />Tiempo desde conexión = ".date('h:i:s', \core\Usuario::$sesion_segundos_duracion);
 							if (\core\Usuario::$login != 'anonimo') {
-								echo "<br />Tiempo restante de sesión = ".date('i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60 - \core\Usuario::$sesion_segundos_duracion);
+								echo "<br />Tiempo restante de sesión = ".date('h:i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60 - \core\Usuario::$sesion_segundos_duracion);
 							}
 							if (isset($_SESSION['usuario']['contador_paginas_visitadas']))
 								echo "<br />Páginas visitadas: [{$_SESSION['usuario']['contador_paginas_visitadas']}]";
