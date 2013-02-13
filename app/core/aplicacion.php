@@ -14,15 +14,16 @@ class Aplicacion extends \core\Clase_Base
 	public static $controlador;
 	
 	public function __construct() {
+		\core\sgbd\bd::conectar();
 		
 		\core\SESSION::iniciar();
 		
 		// Reconocer el usuario que ha iniciado la sesión de trabajo o que continúan dentro de una sesión de trabajo.
 		\core\Usuario::iniciar();
-		
+				
 		\core\Permisos::iniciar();
 			
-		\core\sgbd\bd::conectar();
+	
 		
 		// Distribuidor
 		self::$controlador = $this->cargar_controlador(\core\CGI::get('menu'),\core\CGI::get('submenu'));

@@ -35,7 +35,7 @@ class usuarios extends \core\Controlador
 		{		
 			$respuesta =  \datos\usuarios::validar_usuario($datos['values']['login'], $datos['values']['contrasena']);
 			if  ($respuesta == 'existe') {
-					$datos['error_validacion'] = 'Error en usuario o contraseña';
+					$datos['errores']['validacion'] = 'Error en usuario o contraseña';
 					$this->form_login($datos);
 			}
 			elseif ($respuesta == 'existe_autenticado') {
@@ -48,14 +48,17 @@ class usuarios extends \core\Controlador
 					$this->cargar_controlador('inicio', 'logueado', $datos);
 			}
 			else
-					echo __METHOD__." '$respuesta'";
+					$datos['errores']['validacion'] = 'Error en usuario o contraseña';
 		}
 		else {
-			print_r($datos);
 			$datos['errores']['validacion'] = 'Error de usuario o contraseña';
 			$this->form_login($datos);
 		}
 	}
+	
+	
+	
+	
 	
 	
 	public function form_login_email(array $datos = array())

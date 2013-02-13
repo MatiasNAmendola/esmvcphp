@@ -54,13 +54,6 @@ UNIQUE KEY email (email)
 ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;
 
-insert into foro_usuarios values
-  (default, 'admin', 'admin@email.com', md5('admin00'), default, now(), null)
-, (default, 'anonimo', 'anonimo@email.com', md5(''), default, now(), null)
-, (default, 'juan', 'juan@email.com', md5('juan00'), default, now(), null)
-, (default, 'anais', 'anais@email.com', md5('anais00'), default, now(), null)
-;
-
 
 
 drop table if exists foro_recursos;
@@ -106,7 +99,7 @@ create table foro_roles_permisos
 , primary key (id)
 , unique(rol, controlador, metodo) -- Evita que a un rol se le asinge más de una vez un mismo permiso
 , foreign key (rol) references foro_roles(rol) on delete cascade on update cascade
-, foreign key (controlador, metodo) references foro_recursos(controlador, metodo) on delete cascade on update cascade
+/*, foreign key (controlador, metodo) references foro_recursos(controlador, metodo) on delete cascade on update cascade*/
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
 engine=innodb;
@@ -126,6 +119,22 @@ CHARACTER SET utf8 COLLATE utf8_general_ci
 engine=innodb;
 
 
+
+drop trigger if exists foro_t_usuarios_ai;
+delimiter //
+create trigger foro_t_usuarios_ai after insert on foro_usuarios
+for each row
+begin
+	insert into foro_usuarios_roles (login, rol) values ( new.login, 'usuarios');
+	if (new.login != "anonimo") then
+		insert into foro_usuarios_roles (login,  rol) values ( new.login, 'usuarios_logueados');
+	end if;
+end;
+
+//
+delimiter ;
+
+
 /* empleado - tiene + colección_permisos */
 drop table if exists foro_usuarios_permisos;
 
@@ -138,11 +147,30 @@ create table foro_usuarios_permisos
 , primary key (id)
 , unique(login, controlador, metodo) -- Evita que a un usuario se le asignen más de una vez un permiso
 , foreign key (login) references foro_usuarios(login) on delete cascade on update cascade
-, foreign key (controlador, metodo) references foro_recursos(controlador, metodo) on delete cascade on update cascade
+/*, foreign key (controlador, metodo) references foro_recursos(controlador, metodo) on delete cascade on update cascade*/
 
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
 engine=innodb;
+
+
+
+insert into foro_roles
+  (rol					, descripcion) values
+  ('administradores'	,'Administradores de la aplicación')
+, ('usuarios'			,'Todos los usuarios incluido anonimo')
+, ('usuarios_logueados'	,'Todos los usuarios excluido anonimo')
+;
+
+
+insert into foro_usuarios values
+  (default, 'admin', 'admin@email.com', md5('admin00'), default, now(), null)
+, (default, 'anonimo', 'anonimo@email.com', md5(''), default, now(), null)
+, (default, 'juan', 'juan@email.com', md5('juan00'), default, now(), null)
+, (default, 'anais', 'anais@email.com', md5('anais00'), default, now(), null)
+;
+
+
 
 insert into foro_recursos
   (controlador,		metodo) values
@@ -158,18 +186,12 @@ insert into foro_recursos
 
 ;
 
-insert into foro_roles
-  (rol					, descripcion) values
-  ('administradores'	,'Administradores de la aplicación')
-, ('usuarios'			,'Todos los usuarios incluido anonimo')
-, ('usuarios_logueados'	,'Todos los usuarios excluido anonimo')
-;
-
 insert into foro_roles_permisos
   (rol					,controlador		,metodo) values
   ('administradores'	,'*'				,'*')
 , ('usuarios'			,'inicio'			,'index')
 , ('usuarios_logueados','usuarios'			,'desconectar')
+, ('usuarios_logueados','inicio'			,'logueado')
 ;
 
 insert into foro_usuarios_roles

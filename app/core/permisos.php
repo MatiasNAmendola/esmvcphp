@@ -2,6 +2,9 @@
 namespace core;
 
 /**
+ * Clase que se utilizará cuando la gestión de permisos se vaya a realizar de manera
+ * estática, es decir, uno pocos usuarios y unos pocos permisos que se definen sobre un array.
+ * 
  * @author Jesús María de Quevedo Tomé <jequeto@gmail.com>
  * @since 20130130
  */
