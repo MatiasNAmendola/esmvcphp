@@ -34,7 +34,22 @@ class Clase_Base
 			}
 		}
 		
+		// Comprobamos que la sesión de usuario cumple las condiciones de tiempo
+		// Superación del tiempo de actividad
+		if (\core\Usuario::$sesion_segundos_inactividad >= \core\Configuracion::$sesion_minutos_inactividad * 60) {
+			$controlador = 'usuarios';
+			$metodo = 'desconectar';
+			$datos['desconexion_razon'] = 'inactividad';
+		}
+		elseif (\core\Usuario::$sesion_segundos_duracion >= \core\Configuracion::$sesion_minutos_maxima_duracion * 60) {
+			$controlador = 'usuarios';
+			$metodo = 'desconectar';
+			$datos['desconexion_razon'] = 'tiempo_sesion_agotado';
+		}
+		
+		
 		/*
+		// Comprobar los permisos de los usuarios desde la ACL (Acces Control List)
 		if (\core\Permisos::comprobar(\core\Usuario::$login, $controlador, $metodo) === false ) {
 			if (\core\Usuario::$login == 'anonimo') {
 				$controlador = 'usuarios';

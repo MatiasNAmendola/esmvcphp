@@ -190,6 +190,7 @@ insert into foro_roles_permisos
   (rol					,controlador		,metodo) values
   ('administradores'	,'*'				,'*')
 , ('usuarios'			,'inicio'			,'index')
+, ('usuarios'			,'mensajes'			,'*')
 , ('usuarios_logueados','usuarios'			,'desconectar')
 , ('usuarios_logueados','inicio'			,'logueado')
 ;

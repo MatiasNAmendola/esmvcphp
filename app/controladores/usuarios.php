@@ -229,9 +229,20 @@ class usuarios extends \core\Controlador
 	public function desconectar(array $datos = array()) {
 		
 		\core\Usuario::cerrar_sesion();
-		
-		$datos['mensaje'] = 'Adios';
-		$datos['url_continuar'] = \core\URL::http('?menu=inicio&submenu=');
+		if ( ! isset($datos['desconexion_razon']))
+			$datos['desconexion_razon'] = null;
+		if ($datos['desconexion_razon'] === null) {
+			$datos['mensaje'] = 'Adios';
+			$datos['url_continuar'] = \core\URL::http('?menu=inicio&submenu=');
+		}
+		elseif ($datos['desconexion_razon'] == 'inactividad') {
+			$datos['mensaje'] = 'Has superado el tiempo de inactividad que es de <b>'.\core\Configuracion::$sesion_minutos_inactividad.'</b> minutos.';
+			$datos['url_continuar'] = \core\URL::http('?menu=inicio&submenu=');
+		}
+		elseif ($datos['desconexion_razon'] == 'tiempo_sesion_agotado') {
+			$datos['mensaje'] = 'Has agotado el tiempo de tu sesión que es de <b>'.\core\Configuracion::$sesion_minutos_inactividad.'</b> minutos.<br />Vuelve a conectarte para seguir trabajando.';
+			$datos['url_continuar'] = \core\URL::http('?menu=inicio&submenu=');
+		}
 		
 		$this->cargar_controlador('mensajes', '', $datos);
 		

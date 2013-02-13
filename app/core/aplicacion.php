@@ -14,6 +14,7 @@ class Aplicacion extends \core\Clase_Base
 	public static $controlador;
 	
 	public function __construct() {
+		
 		\core\sgbd\bd::conectar();
 		
 		\core\SESSION::iniciar();
@@ -21,9 +22,8 @@ class Aplicacion extends \core\Clase_Base
 		// Reconocer el usuario que ha iniciado la sesión de trabajo o que continúan dentro de una sesión de trabajo.
 		\core\Usuario::iniciar();
 				
-		\core\Permisos::iniciar();
-			
-	
+		// Los usamos si trabajamos con la ACL (Acces Control List) para definir los permisos de los usuarios
+		// \core\Permisos::iniciar();
 		
 		// Distribuidor
 		self::$controlador = $this->cargar_controlador(\core\CGI::get('menu'),\core\CGI::get('submenu'));
