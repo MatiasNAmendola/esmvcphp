@@ -70,6 +70,7 @@ class usuarios extends \core\sgbd\bd
 	}
 	
 	
+	
 	public static function permisos_usuario($login) {
 		
 		$consulta = "

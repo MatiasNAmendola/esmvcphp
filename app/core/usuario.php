@@ -33,7 +33,7 @@ class Usuario extends \core\Clase_Base {
 			$_SESSION['usuario']['contador_paginas_visitadas'] = 1;
 		
 		self::sesion_control_tiempos();
-		
+
 	}
 	
 	

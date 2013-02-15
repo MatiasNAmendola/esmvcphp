@@ -9,7 +9,7 @@ class Configuracion
 	
 	public static $plantilla_por_defecto = 'plantilla_principal';
 	
-	public static $sesion_minutos_inactividad = 1; // Minutos
+	public static $sesion_minutos_inactividad = 5; // Minutos
 	
 	public static $sesion_minutos_maxima_duracion = 20;
 	
