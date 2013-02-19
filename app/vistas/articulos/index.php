@@ -1,8 +1,8 @@
 <div>
 	<h1>Listado de articulos</h1>
 	<p>
-		<a href='?menu=articulos&submenu=listado_js'>Listado en json</a> - 
-		<a href='?menu=articulos&submenu=listado_js_array&nombre=a'>Listado en json con array de articulos que contiene a en su nombre</a> - 
+		<a href='?menu=articulos&submenu=listado_js' title='Devuelve objeto json con una propiedad que contiene un array'>Listado en json</a> - 
+		<a href='?menu=articulos&submenu=listado_js_array&nombre=a'  title='Devuelve un array que contiene objetos json'>Listado en json con array de articulos que contiene "a" en su nombre</a> - 
 		<a href='?menu=articulos&submenu=listado_xml'>Listado en xml</a> - 
 		<a href='?menu=articulos&submenu=listado_xls'>Descargar Listado en excel (.xls)</a>
 	</p>

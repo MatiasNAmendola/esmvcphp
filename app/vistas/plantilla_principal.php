@@ -47,14 +47,14 @@
 							if (\core\Usuario::$login != 'anonimo')
 								echo " (<a href='?menu=usuarios&submenu=desconectar'>desconectar</a>)";
 							if (\core\Usuario::$login != 'anonimo') {
-								echo "<br />Tiempo máximo de sesión = ".date('i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60);
-								echo "<br />Tiempo máximo de inactividad = ".date('i:s', \core\Configuracion::$sesion_minutos_inactividad *60);
+								echo "<br />Tiempo máximo de sesión = ".gmdate('H:i:s', \core\Configuracion::$sesion_minutos_maxima_duracion*60);
+								echo "<br />Tiempo máximo de inactividad = ".gmdate('H:i:s', \core\Configuracion::$sesion_minutos_inactividad *60);
 							}
 							// Para todos los usuarios
-							echo "<br />Tiempo transcurrido desde anterior petición =  <span id='sesion_tiempo_desde_peticion'>".date('i:s', \core\Usuario::$sesion_segundos_inactividad)."</span>";
-							echo "<br />Tiempo desde conexión =  <span id='sesion_tiempo_desde_conexion'>".date('i:s', \core\Usuario::$sesion_segundos_duracion)."</span>";
+							echo "<br />Tiempo transcurrido desde anterior petición =  <span id='sesion_tiempo_desde_peticion'>".gmdate('h:i:s', \core\Usuario::$sesion_segundos_inactividad)."</span>";
+							echo "<br />Tiempo desde conexión =  <span id='sesion_tiempo_desde_conexion'>".gmdate('h:i:s', \core\Usuario::$sesion_segundos_duracion)."</span>";
 							if (\core\Usuario::$login != 'anonimo') {
-								echo "<br />Tiempo restante de sesión = <span id='sesion_tiempo_restante'>".date('i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60 - \core\Usuario::$sesion_segundos_duracion)."</span>";
+								echo "<br />Tiempo restante de sesión = <span id='sesion_tiempo_restante'>".gmdate('h:i:s', \core\Configuracion::$sesion_minutos_maxima_duracion *60 - \core\Usuario::$sesion_segundos_duracion)."</span>";
 							}
 							if (isset($_SESSION['usuario']['contador_paginas_visitadas']))
 								echo "<br />Páginas visitadas: [{$_SESSION['usuario']['contador_paginas_visitadas']}]";
@@ -95,21 +95,28 @@
 			var sesion_ms_desde_conexion = <?php  echo \core\Usuario::$sesion_segundos_duracion * 1000;?> ;
 			var sesion_ms_restante = <?php  echo (\core\Configuracion::$sesion_minutos_maxima_duracion *60 - \core\Usuario::$sesion_segundos_duracion) * 1000;?> ;
 			
+			function dos_digitos(numero) {
+				if (numero<10) {
+				  numero="0" + numero;
+				}
+				return numero;
+			}
+
 			function actualizar_tiempos() {
 				// alert('actualizar_tiempos');
 				if (login != 'anonimo') {
 					var hora = new Date(sesion_ms_restante);
-					document.getElementById('sesion_tiempo_restante').innerHTML = hora.getMinutes()+":"+hora.getSeconds();
+					document.getElementById('sesion_tiempo_restante').innerHTML = dos_digitos(hora.getUTCHours())+":"+dos_digitos(hora.getMinutes())+":"+dos_digitos(hora.getSeconds());
 					sesion_ms_restante = sesion_ms_restante - 1000;
 				}
 				objeto = document.getElementById('sesion_tiempo_desde_peticion');
 				hora = new Date(sesion_ms_desde_peticion);
-				objeto.innerHTML = hora.getMinutes()+":"+hora.getSeconds();
+				objeto.innerHTML = dos_digitos(hora.getUTCHours())+":"+ dos_digitos(hora.getMinutes())+":"+dos_digitos(hora.getSeconds());
 				sesion_ms_desde_peticion += 1000;
 				
 				objeto = document.getElementById('sesion_tiempo_desde_conexion');
 				hora = new Date(sesion_ms_desde_conexion);
-				objeto.innerHTML = hora.getMinutes()+":"+hora.getSeconds();
+				objeto.innerHTML = dos_digitos(hora.getUTCHours())+":"+ dos_digitos(hora.getMinutes())+":"+dos_digitos(hora.getSeconds());
 				sesion_ms_desde_conexion += 1000;
 			}
 			
