@@ -35,4 +35,25 @@ class Array_Datos
 		return (array_key_exists($indice, $datos) ? $datos[$indice] : null);
 	}
 	
+	
+	
+	/**
+	 * Retorna true si el conetenido está en alguna entrada del array que se pasa por parámetro.
+	 * 
+	 * @param mixed $contenido
+	 * @param array $array
+	 * @return boolean
+	 */
+	public static function contiene($contenido, array $array) {
+		$busqueda = false;
+		foreach ($array as $value) {
+			if ($value === $contenido) {
+				$busqueda = true;
+				break;
+			}
+		}
+		
+		return $busqueda;
+	}
+	
 }

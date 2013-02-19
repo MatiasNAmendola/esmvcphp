@@ -179,7 +179,8 @@ class Validaciones  {
 
 
 	/**
-	 * Texto: cadena con letras (\w), espacios (\s)  , . ; : - /
+	 * Texto: cadena con lun carácter como mínimo
+	 * 
 	 * @autor jequeto
 	 */
 	public static function errores_texto($cadena=null) {

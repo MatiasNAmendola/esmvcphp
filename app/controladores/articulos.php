@@ -182,11 +182,41 @@ class articulos extends \core\Controlador {
 	}
 	
 
-	public function js_listado(array $datos=array()) {
+	/**
+	 * Genera una respuesta json.
+	 * 
+	 * @param array $datos
+	 */
+	public function listado_js(array $datos=array()) {
 		
-		// $_GET['nombre']
-		if (isset($_GET['nombre'])) 
-			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
+		$validaciones = array(
+			"nombre" => "errores_texto"
+		);
+		\core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if (isset($_datos['values']['nombre'])) 
+			$select['where'] = " nombre like '%{$_datos['values']['nombre']}%'";
+		$select['order_by'] = 'nombre';
+		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
+				
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		
+		\core\Respuesta::cambiar_tipo_mime('text/json');
+		\core\Respuesta::enviar($datos, 'plantilla_json');
+		
+	}
+	
+	/**
+	 * Genera una respuesta json con un array que contiene objetos, siendo cada objeto una fila.
+	 * @param array $datos
+	 */
+	public function listado_js_array(array $datos=array()) {
+		
+		$validaciones = array(
+			"nombre" => "errores_texto"
+		);
+		\core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if (isset($_datos['values']['nombre'])) 
+			$select['where'] = " nombre like '%{$_datos['values']['nombre']}%'";
 		$select['order_by'] = 'nombre';
 		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
 				
@@ -198,27 +228,19 @@ class articulos extends \core\Controlador {
 	}
 	
 	
-	public function js_listado_array(array $datos=array()) {
+	/**
+	 * Genera una respuesta xml.
+	 * 
+	 * @param array $datos
+	 */
+	public function listado_xml(array $datos=array()) {
 		
-		// $_GET['nombre']
-		if (isset($_GET['nombre'])) 
-			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
-		$select['order_by'] = 'nombre';
-		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
-				
-		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
-		
-		\core\Respuesta::cambiar_tipo_mime('text/json');
-		\core\Respuesta::enviar($datos, 'plantilla_json');
-		
-	}
-	
-	
-	public function js_listado_xml(array $datos=array()) {
-		
-		// $_GET['nombre']
-		if (isset($_GET['nombre'])) 
-			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
+		$validaciones = array(
+			"nombre" => "errores_texto"
+		);
+		\core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if (isset($_datos['values']['nombre'])) 
+			$select['where'] = " nombre like '%{$_datos['values']['nombre']}%'";
 		$select['order_by'] = 'nombre';
 		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
 				
@@ -230,11 +252,20 @@ class articulos extends \core\Controlador {
 	}
 	
 	
+	
+	
+	/**
+	 * Genera una respuesta excel.
+	 * @param array $datos
+	 */
 	public function listado_xls(array $datos=array()) {
 		
-		// $_GET['nombre']
-		if (isset($_GET['nombre'])) 
-			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
+		$validaciones = array(
+			"nombre" => "errores_texto"
+		);
+		\core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if (isset($_datos['values']['nombre'])) 
+			$select['where'] = " nombre like '%{$_datos['values']['nombre']}%'";
 		$select['order_by'] = 'nombre';
 		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
 				

@@ -1,5 +1,11 @@
 <div>
 	<h1>Listado de articulos</h1>
+	<p>
+		<a href='?menu=articulos&submenu=listado_js'>Listado en json</a> - 
+		<a href='?menu=articulos&submenu=listado_js_array&nombre=a'>Listado en json con array de articulos que contiene a en su nombre</a> - 
+		<a href='?menu=articulos&submenu=listado_xml'>Listado en xml</a> - 
+		<a href='?menu=articulos&submenu=listado_xls'>Descargar Listado en excel (.xls)</a>
+	</p>
 	<table border='1'>
 		<thead>
 			<tr>

@@ -13,6 +13,23 @@ class Configuracion
 	
 	public static $sesion_minutos_maxima_duracion = 120;
 	
+	
+	/**
+	 *
+	 * @var string Tipo MIME utilizado por defecto.
+	 */
+	public static $tipo_mime_por_defecto = 'text/html';
+	
+	/**
+	 *
+	 * @var array = Colección de tipos MIME soportados por esta aplicación. 
+	 */
+	public static $tipos_mime_reconocidos = array(
+		'text/html', 'text/xml', 'text/json', 'application/excel', 
+	);
+	
+	
+	
 	public static $mysql = array(
 		'server'   => 'localhost',
 		'user'     => 'daw2_user',
