@@ -3,7 +3,7 @@ namespace core\sgbd;
 
 class mysql
 {
-	protected static $depuracion = true;
+	protected static $depuracion = false;
 	public static $conexion;
 	public static $prefix_;
 	public static $tabla;
@@ -33,7 +33,6 @@ class mysql
 		
 		self::$prefix_ = \core\Configuracion::$mysql['prefix_'];
 		
-		if (self::$depuracion) var_dump(self::$conexion);
 	}
 	
 	

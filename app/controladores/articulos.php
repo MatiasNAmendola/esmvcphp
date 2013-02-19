@@ -169,5 +169,82 @@ class articulos extends \core\Controlador {
 		}
 	}
 	
+	
+	public function listado_pdf(array $datos=array()) {
+		
+		//....
+				
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		
+		\core\Respuesta::cambiar_tipo_mime('application/pdf');
+		\core\Respuesta::enviar($datos);
+		
+	}
+	
+
+	public function js_listado(array $datos=array()) {
+		
+		// $_GET['nombre']
+		if (isset($_GET['nombre'])) 
+			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
+		$select['order_by'] = 'nombre';
+		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
+				
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		
+		\core\Respuesta::cambiar_tipo_mime('text/json');
+		\core\Respuesta::enviar($datos, 'plantilla_json');
+		
+	}
+	
+	
+	public function js_listado_array(array $datos=array()) {
+		
+		// $_GET['nombre']
+		if (isset($_GET['nombre'])) 
+			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
+		$select['order_by'] = 'nombre';
+		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
+				
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		
+		\core\Respuesta::cambiar_tipo_mime('text/json');
+		\core\Respuesta::enviar($datos, 'plantilla_json');
+		
+	}
+	
+	
+	public function js_listado_xml(array $datos=array()) {
+		
+		// $_GET['nombre']
+		if (isset($_GET['nombre'])) 
+			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
+		$select['order_by'] = 'nombre';
+		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
+				
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		
+		\core\Respuesta::cambiar_tipo_mime('text/xml');
+		\core\Respuesta::enviar($datos, 'plantilla_xml');
+		
+	}
+	
+	
+	public function listado_xls(array $datos=array()) {
+		
+		// $_GET['nombre']
+		if (isset($_GET['nombre'])) 
+			$select['where'] = " nombre like '%{$_GET['nombre']}%'";
+		$select['order_by'] = 'nombre';
+		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
+				
+		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		
+		\core\Respuesta::cambiar_tipo_mime('application/excel');
+		\core\Respuesta::enviar($datos, 'plantilla_xls');
+		
+	}
+	
+	
 } // Fin de la clase
 ?>

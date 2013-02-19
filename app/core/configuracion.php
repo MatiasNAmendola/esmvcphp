@@ -9,9 +9,9 @@ class Configuracion
 	
 	public static $plantilla_por_defecto = 'plantilla_principal';
 	
-	public static $sesion_minutos_inactividad = 5; // Minutos
+	public static $sesion_minutos_inactividad = 20; // Minutos
 	
-	public static $sesion_minutos_maxima_duracion = 20;
+	public static $sesion_minutos_maxima_duracion = 120;
 	
 	public static $mysql = array(
 		'server'   => 'localhost',
