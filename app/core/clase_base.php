@@ -107,7 +107,7 @@ class Clase_Base
 	{
 		if ( ! is_string($indice) && ! is_integer($indice))
 			throw new \Exception(__METHOD__." Error: parámetro \$indice=$indice debe ser entero o string");
-		elseif ( !is_array($array))
+		elseif ( ! is_array($array))
 			throw new \Exception(__METHOD__." Error: parámetro \$array debe ser un array");
 		
 		return (array_key_exists($indice, $array) ? $array[$indice] : null);

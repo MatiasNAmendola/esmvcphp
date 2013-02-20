@@ -9,8 +9,7 @@ namespace core;
  * @author Jesús María de Quevedo Tomé <jequeto@gmail.com>
  * @since 20130130
  */
-class Autoloader 
-{
+class Autoloader {
 	static $depuracion = false;
 	
 	function __construct() {
@@ -18,12 +17,18 @@ class Autoloader
 			echo "<hr />";
 			echo __METHOD__." -> Arrancando el autoloader<br />";
 		}
-		spl_autoload_register(array($this, 'autoload')); // Esta es la función que se activa cada vez que se intenta instanciar una clase o se usa una clase estáticamente.
+		spl_autoload_register(array($this, 'autoload')); // Esta es la función que registra la función que se activará cada vez que se intente instanciar una clase o se usar una clase estáticamente.
 	}
 	
-	function autoload($class_name)
-	{
-		// Esta es la función que tiene la "inteligencia" para buscar los ficheros por las carpetas del disco del servidor
+	
+	/**
+	 * Esta es la función que tiene la "inteligencia" para buscar los ficheros por las carpetas del disco del servidor
+	 * @param string $class_name
+	 * @return boolean
+	 * @throws \Exception
+	 */
+	function autoload($class_name) {
+		
 		if (self::$depuracion) {
 			echo "<br /><hr />";
 			echo __METHOD__." -> \$class_name= $class_name"."<br />";
@@ -33,12 +38,11 @@ class Autoloader
 			if (self::$depuracion) { echo __METHOD__." -> EXISTE \$class_name= $class_name"."<br />";}
 			return;
 		}
-		$class_name=  str_replace(
-				array("\\", ), 
-				array(DS , ),
-				$class_name
-				);
+		// Sustituir las \ que separan el namespaces del nombre de la clase por DS que separa carpetas
+		$class_name=  str_replace(array("\\", ), array(DS , ), $class_name);
+		
 		$fichero_clase=  strtolower(PATH_APP.$class_name.".php");
+		
 		if ( ! file_exists($fichero_clase)) 
 		{
 			if (self::$depuracion) {echo __METHOD__.": NO EXISTE \$fichero_clase= $fichero_clase"."<br />";}
@@ -49,10 +53,13 @@ class Autoloader
 			);
 			$fichero_clase = PATH_APP.$class_name.".php";
 		}
+		
 		if ( ! file_exists($fichero_clase) )
 		{
+			// Buscamos en las clases de la librería de dompdf
 			$fichero_clase=  strtolower(PATH_APP."lib/php/dompdf/include/$class_name.cls.php");
 		}
+		
 		if ( file_exists($fichero_clase) )
 		{
 			if (self::$depuracion) {echo __METHOD__.": EXISTE y CARGANDO ... \$fichero_clase= $fichero_clase"."<br />";}
@@ -62,5 +69,7 @@ class Autoloader
 		{
 			throw new \Exception(__METHOD__.": NO EXISTE \$fichero_clase= $fichero_clase");
 		}
+		
 	}
+	
 } // Fin de la clase
