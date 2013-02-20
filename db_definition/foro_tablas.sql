@@ -1,7 +1,8 @@
 
 
 drop database if exists daw2;
-create database daw2;
+create database daw2 
+default character set = utf8 ;
 
 
 create user daw2_user identified by 'daw2_user';
@@ -10,6 +11,7 @@ grant all privileges on daw2.* to daw2_user;
 
 
 use daw2;
+
 
 
 /*

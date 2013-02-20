@@ -172,12 +172,32 @@ class articulos extends \core\Controlador {
 	
 	public function listado_pdf(array $datos=array()) {
 		
-		//....
-				
-		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
+		$validaciones = array(
+			"nombre" => "errores_texto"
+		);
+		\core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if (isset($datos['values']['nombre'])) 
+			$select['where'] = " nombre like '%{$datos['values']['nombre']}%'";
+		$select['order_by'] = 'nombre';
+		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);		
 		
-		\core\Respuesta::cambiar_tipo_mime('application/pdf');
-		\core\Respuesta::enviar($datos);
+		$datos['html_para_pdf'] = \core\Vista::generar(__FUNCTION__, $datos);
+		
+		require_once(PATH_APP."lib/php/dompdf/dompdf_config.inc.php");
+
+		$html =
+		  '<html><body>'.
+		  '<p>Put your html here, or generate it with your favourite '.
+		  'templating system.</p>'.
+		  '</body></html>';
+
+		$dompdf = new \DOMPDF();
+		$dompdf->load_html($datos['html_para_pdf']);
+		$dompdf->render();
+		$dompdf->stream("sample.pdf", array("Attachment" => 0));
+		
+		// \core\Respuesta::cambiar_tipo_mime('application/pdf');
+		// \core\Respuesta::enviar($datos, 'plantilla_pdf');
 		
 	}
 	
@@ -193,8 +213,8 @@ class articulos extends \core\Controlador {
 			"nombre" => "errores_texto"
 		);
 		\core\Validaciones::errores_validacion_request($validaciones, $datos);
-		if (isset($_datos['values']['nombre'])) 
-			$select['where'] = " nombre like '%{$_datos['values']['nombre']}%'";
+		if (isset($datos['values']['nombre'])) 
+			$select['where'] = " nombre like '%{$datos['values']['nombre']}%'";
 		$select['order_by'] = 'nombre';
 		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
 				
@@ -215,8 +235,8 @@ class articulos extends \core\Controlador {
 			"nombre" => "errores_texto"
 		);
 		\core\Validaciones::errores_validacion_request($validaciones, $datos);
-		if (isset($_datos['values']['nombre'])) 
-			$select['where'] = " nombre like '%{$_datos['values']['nombre']}%'";
+		if (isset($datos['values']['nombre'])) 
+			$select['where'] = " nombre like '%{$datos['values']['nombre']}%'";
 		$select['order_by'] = 'nombre';
 		$datos['filas'] = \datos\Datos_SQL::select('articulos', $select);
 				

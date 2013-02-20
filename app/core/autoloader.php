@@ -42,12 +42,16 @@ class Autoloader
 		if ( ! file_exists($fichero_clase)) 
 		{
 			if (self::$depuracion) {echo __METHOD__.": NO EXISTE \$fichero_clase= $fichero_clase"."<br />";}
-			$class_name=  str_replace(
+			$class_name = str_replace(
 				array("controlador"), 
 				array("controladores"),
 				$class_name
 			);
 			$fichero_clase = PATH_APP.$class_name.".php";
+		}
+		if ( ! file_exists($fichero_clase) )
+		{
+			$fichero_clase=  strtolower(PATH_APP."lib/php/dompdf/include/$class_name.cls.php");
 		}
 		if ( file_exists($fichero_clase) )
 		{
