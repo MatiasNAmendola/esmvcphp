@@ -20,7 +20,7 @@ class HTML_Tag extends \core\Clase_Base {
 
 	public static function span_error($input_id, array $datos) {
 		
-		return "<span id='error_$input_id' class='input_error' style='color: red;'>".(isset($datos['errores'][$input_id])?$datos['errores'][$input_id]:'')."</span>"; 
+		return "<span id='error_$input_id' class='input_error' style='color: red;'>".(isset($datos['errores'][$input_id]) ? $datos['errores'][$input_id]:'')."</span>"; 
 			
 	}
 

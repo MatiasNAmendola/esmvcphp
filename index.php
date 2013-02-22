@@ -2,6 +2,9 @@
 
 // Definiciones constantes
 define("DS", DIRECTORY_SEPARATOR);
+
+define("PATH_ROOT", __DIR__.DS ); // Finaliza en DS
+
 define("PATH_APP", __DIR__.DS."app".DS ); // Finaliza en DS
 
 define('TITULO', 'my MVC bd');

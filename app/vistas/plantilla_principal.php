@@ -65,6 +65,7 @@
 			<a href='?'>Inicio</a>
 			<a href='?menu=usuarios'>Usuarios</a>
 			<a href='?menu=articulos'>Artículos</a>
+			<a href='?menu=galeria_fotos'>Galería fotos</a>
 			<?php 
 				if (\core\Usuario::$login == 'anonimo')
 					echo "<a href='?menu=usuarios&submenu=form_login_email' style='float: right;'>Conectar</a>";
