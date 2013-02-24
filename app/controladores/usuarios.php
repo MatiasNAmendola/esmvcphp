@@ -7,8 +7,10 @@ if ( ! defined('PATH_APP'))
 
 class usuarios extends \core\Controlador
 {
-	public function index(array $datos = array())
-	{
+	
+	
+	public function index(array $datos = array()) {
+		
 		$clausulas['order_by'] = 'login';
 		$datos['filas'] = \datos\usuarios::select('usuarios', $clausulas);
 		
@@ -17,23 +19,35 @@ class usuarios extends \core\Controlador
 		
 	}
 	
-	public function form_login(array $datos = array())
-	{
+	
+	
+	
+	
+	
+	
+	public function form_login(array $datos = array()) {
+		
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		\core\Respuesta::enviar($datos);
+		
 	}
 	
-	public function validar_form_login(array $datos = array())
-	{
+	
+	
+	
+	
+	public function validar_form_login(array $datos = array()) 	{
+		
 		$validaciones = array(
 			'login' => 'errores_requerido && errores_login',
 			'contrasena => errores_requerido && errores_contrasena'
 		);
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
-		if ($validacion)
-		{		
+		
+		if ($validacion) {		
 			$respuesta =  \datos\usuarios::validar_usuario($datos['values']['login'], $datos['values']['contrasena']);
+		
 			if  ($respuesta == 'existe') {
 					$datos['errores']['validacion'] = 'Error en usuario o contraseña';
 					$this->form_login($datos);

@@ -3,6 +3,7 @@ namespace core;
 
 class Usuario extends \core\Clase_Base {
 	
+	private static $depuracion = false;
 	public static $login = 'anonimo';
 	public static $permisos = array();
 	public static $sesion_segundos_duracion = 0;
@@ -34,6 +35,10 @@ class Usuario extends \core\Clase_Base {
 		
 		self::sesion_control_tiempos();
 
+		if (self::$depuracion) {
+			echo(__METHOD__." self::$permisos = ");
+			print_r(self::$permisos);
+		}
 	}
 	
 	

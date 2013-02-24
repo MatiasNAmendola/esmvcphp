@@ -1,25 +1,20 @@
 
-
+/*
 drop database if exists daw2;
 create database daw2 
 default character set = utf8 ;
 
 
 create user daw2_user identified by 'daw2_user';
-	/* Concedemos al usuario daw2_user todos los permisos sobre esa base de datos*/
+# Concedemos al usuario daw2_user todos los permisos sobre esa base de datos
 grant all privileges on daw2.* to daw2_user;
 
 
 use daw2;
 
-
-
-/*
-alter table usuarios add column
-fecha_alta timestamp default current_timestamp(),
-fecha_confirmacion_alta datetime default null
-;
 */
+
+set sql_mode='traditional';
 
 drop table if exists foro_articulos;
 create table if not exists foro_articulos
@@ -30,7 +25,7 @@ create table if not exists foro_articulos
 , primary key (id)
 , unique (nombre)
 )
-engine=innodb default charset=utf8
+engine = myisam default charset=utf8
 ;
 
 insert into foro_articulos
@@ -41,6 +36,7 @@ insert into foro_articulos
 , ('zurracapote', 10)
 ;
 
+drop table if exists foro_usuarios;
 CREATE TABLE foro_usuarios (
 id int(11) NOT NULL AUTO_INCREMENT,
 login varchar(30) NOT NULL,
@@ -53,7 +49,7 @@ PRIMARY KEY (id),
 UNIQUE KEY login (login),
 UNIQUE KEY email (email)
 )
-ENGINE=InnoDB DEFAULT CHARSET=utf8
+ENGINE=myisam DEFAULT CHARSET=utf8
 ;
 
 
@@ -71,7 +67,7 @@ create table foro_recursos
 
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
-engine=innodb;
+engine=myisam;
 
 /*
  * Un rol es igual que un grupo de trabajo o grupo de usuarios.
@@ -88,7 +84,7 @@ create table foro_roles
 , unique (rol)
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
-engine=innodb;
+engine=myisam;
 
 
 /* seccion y subseccion se validarán en v_negocios_permisos */
@@ -104,9 +100,10 @@ create table foro_roles_permisos
 /*, foreign key (controlador, metodo) references foro_recursos(controlador, metodo) on delete cascade on update cascade*/
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
-engine=innodb;
+engine=myisam;
 
 
+drop table if exists foro_usuarios_roles;
 create table foro_usuarios_roles
 ( id integer unsigned auto_increment not null
 , login varchar(20) not null
@@ -118,10 +115,11 @@ create table foro_usuarios_roles
 , foreign key ( rol) references foro_roles(rol) on delete cascade on update cascade
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
-engine=innodb;
+engine=myisam;
 
 
-
+/*
+# Algunos hosting no dan el permiso de trigger por lo que habrá que implementarlo en programación php.
 drop trigger if exists foro_t_usuarios_ai;
 delimiter //
 create trigger foro_t_usuarios_ai after insert on foro_usuarios
@@ -136,10 +134,10 @@ end;
 //
 delimiter ;
 
+*/
 
-/* empleado - tiene + colección_permisos */
+
 drop table if exists foro_usuarios_permisos;
-
 create table foro_usuarios_permisos
 ( id integer unsigned auto_increment not null
 , login varchar(20) not null
@@ -153,7 +151,7 @@ create table foro_usuarios_permisos
 
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
-engine=innodb;
+engine=myisam;
 
 
 
@@ -165,11 +163,12 @@ insert into foro_roles
 ;
 
 
-insert into foro_usuarios values
-  (default, 'admin', 'admin@email.com', md5('admin00'), default, now(), null)
-, (default, 'anonimo', 'anonimo@email.com', md5(''), default, now(), null)
-, (default, 'juan', 'juan@email.com', md5('juan00'), default, now(), null)
-, (default, 'anais', 'anais@email.com', md5('anais00'), default, now(), null)
+insert into foro_usuarios 
+  (login, email, password, fecha_alta ,fecha_confirmacion_alta, clave_confirmacion) values
+  ('admin', 'admin@email.com', md5('admin00'), default, now(), null)
+, ('anonimo', 'anonimo@email.com', md5(''), default, now(), null)
+, ('juan', 'juan@email.com', md5('juan00'), default, now(), null)
+, ('anais', 'anais@email.com', md5('anais00'), default, now(), null)
 ;
 
 
@@ -199,6 +198,11 @@ insert into foro_roles_permisos
 insert into foro_usuarios_roles
   (login		,rol) values
   ('admin'		,'administradores')
+, ('anonimo'	,'usuarios')
+, ('juan'		,'usuarios')
+, ('juan'		,'usuarios_logueados')
+, ('anais'		,'usuarios')
+, ('anais'		,'usuarios_logueados')
 ;
 
 

@@ -68,17 +68,17 @@ class galeria_fotos extends \core\Controlador {
 				//echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
 				//echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";
 
-				if (file_exists(PATH_ROOT."recursos/imagenes/" . $_FILES["file"]["name"])) {
+				if (file_exists(PATH_ROOT."recursos/imagenes/galeria_fotos/" . $_FILES["file"]["name"])) {
 					$datos['errores']['validacion'] = $_FILES["file"]["name"] . " already exists. ";
 					$validacion = false;
 				}
 				else {
 					move_uploaded_file(
 						$_FILES["file"]["tmp_name"],
-						PATH_ROOT."recursos/imagenes/" . $_FILES["file"]["name"]
+						PATH_ROOT."recursos/imagenes/galeria_fotos/" . $_FILES["file"]["name"]
 					);
 					//$datos['alerta'] = "Stored in: " .PATH_ROOT."recursos/imagenes/" . $_FILES["file"]["name"];
-					$datos['alerta'] = "Stored succefuly";
+					$datos['alerta'] = "Subida satisfactoria.";
 				}
 			}
 		}

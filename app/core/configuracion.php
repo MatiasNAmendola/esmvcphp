@@ -29,7 +29,7 @@ class Configuracion
 	);
 	
 	
-	
+
 	public static $mysql = array(
 		'server'   => 'localhost',
 		'user'     => 'daw2_user',
@@ -38,6 +38,15 @@ class Configuracion
 		'prefix_'  => 'foro_'
 	);
 	
+	/*
+	public static $mysql = array(
+		'server'   => 'sql210.byethost8.com',
+		'user'     => 'b8_12128753',
+		'password' => '**************',
+		'dbname'   => 'b8_12128753_esmvcphp',
+		'prefix_'  => 'foro_'
+	);
+	*/
 	/**
 	 * Define array llamado recursos_y_suariosla con la definición de todos los permisos de acceso a los recursos de la aplicación.
 	 * * Recursos:
