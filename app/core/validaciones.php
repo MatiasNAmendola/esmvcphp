@@ -474,7 +474,7 @@ class Validaciones  {
 			}
 
 			$filas = \datos\Datos_SQL::select($tabla, $parametros);
-			if (!$filas || !count($filas)) {
+			if ( ! $filas || ! count($filas)) {
 				$msj_error.="El/Los valor/es aportado/s <b>[ $valores_aportados ]</b> no existe/n en la tabla de referencia [$tabla] en las columnas [{$parametros["where"]}] . Escribe un valor que sí exista.";
 			}
 
@@ -488,6 +488,47 @@ class Validaciones  {
 	}
 
 
+	/**
+	* errores_descuento($cadena)
+	* 
+	* @param string $cadena Cadena con un descuento: ejemplo descuento valido: 0, 00, 5, 05, 10, 50, 100
+	* @return false|string Devuelve false si no hay errores, o un mensaje con la descripción del error
+	*/
+	public static function errores_descuento($cadena) {
+	   $resultado = false;
+	   $patron = "/(^\d{1,2}$)|(^100$)/";
+	   $patron = "/^(\d{1,2}|100)$/";
+	   if ( strlen($cadena) && ! preg_match($patron, $cadena)) {
+		   $resultado = 'Solo se admite valores del 0 al 100 ';
+	   }
+	   return $resultado;
+	}
+
+
+	/**
+	* errores_fecha($cadena)
+	* 
+	* @param string $cadena Cadena con un fecha tipo: "dd/mm/aaaa" "d/m/aaaaa"
+	* @return false|string Devuelve false si no hay errores, o un mensaje con la descripción del error
+	*/
+	 public static function errores_fecha($cadena) {
+	   $resultado = false;
+	   $patron = "/^\d[1,2}\/\d{1,2}\/\d{4}$/";
+	   if ( strlen($cadena) && ! preg_match($patron, $cadena)) {
+		   $resultado = 'Solo se admite fechas con formato dd/mm/aaaa d/m/aaaaa ';
+	   }
+	   else {
+		   $partes = explode('/', $cadena); // Devuelve un array de índice numérico
+		   // $parte[0] = dia $parte[1] = mes $parte[2] = año
+		   if ( !  checkdate ( (int)$parte[1] , (int)$parte[0] , (int)$parte[2] ) )
+			   $resultado = 'La fecha no es válida ';
+	   }
+	   return $resultado;
+	}
+
+	
+	
+	
 // TODO: Preparar array de validaciones por defecto
 // El siguiente array recoje las validaciones por defecto para cada columna de tablas de base de datos cuyos datos pueden entrar a través de $_REQUEST
 // Para cada entrada se define: "columna"=>"validador" // Tipo de datos sql de la columna en la tabla
