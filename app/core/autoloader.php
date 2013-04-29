@@ -39,9 +39,9 @@ class Autoloader {
 			return;
 		}
 		// Sustituir las \ que separan el namespaces del nombre de la clase por DS que separa carpetas
-		$class_name=  str_replace(array("\\", ), array(DS , ), $class_name);
+		$class_name = str_replace(array("\\", ), array(DS , ), $class_name);
 		
-		$fichero_clase=  strtolower(PATH_APP.$class_name.".php");
+		$fichero_clase = strtolower(PATH_APP.$class_name.".php");
 		
 		if ( ! file_exists($fichero_clase)) 
 		{
@@ -57,7 +57,7 @@ class Autoloader {
 		if ( ! file_exists($fichero_clase) )
 		{
 			// Buscamos en las clases de la librería de dompdf
-			$fichero_clase=  strtolower(PATH_APP."lib/php/dompdf/include/$class_name.cls.php");
+			$fichero_clase = strtolower(PATH_APP."lib/php/dompdf/include/$class_name.cls.php");
 		}
 		
 		if ( file_exists($fichero_clase) )

@@ -64,6 +64,7 @@
 		<div id="menu" style='border: 1px solid red;'>
 			<a href='?'>Inicio</a>
 			<a href='?menu=usuarios'>Usuarios</a>
+			<a href='?menu=categorias'>Categorías</a>
 			<a href='?menu=articulos'>Artículos</a>
 			<a href='?menu=galeria_fotos'>Galería fotos</a>
 			<?php 

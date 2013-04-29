@@ -42,7 +42,12 @@ class Usuario extends \core\Clase_Base {
 	}
 	
 	
-	
+	/**
+	 * Si el parámetro $login no es una cadena, es una cadena vacía, o es una cadena que contiene caracteres que no sean letras, numeros y _ lanza una execpción con un mensaje.
+	 * Si no salta la excepcióne el valor del parámetro $login es asignado a la propiedad $login de la clase. Borra la entrada $_SESSION['usuario'] y la vuelve a crear asignándo a la entrada $_SESSION['usuario']['login'] el valor del parámetro $login. Después llama al método de esta misma clase recuperar_permisos($login).
+	 * 
+	 * @param string $login
+	 */
 	public static function nuevo($login) {
 		
 		self::$login = $login;

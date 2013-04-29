@@ -13,13 +13,23 @@ class Clase_Base
 	 */
 	public $datos = array(); 
 	
-	public function cargar_controlador($controlador, $metodo, array $datos = array())
-	{
+	
+	public static function distribuidor() {
+		
+		self::analizar_peticion();
+		
+	}
+	
+	public static function analizar_peticion() {
+		
+		$controlador = \core\CGI::get('menu');
+		$metodo = \core\CGI::get('submenu');
+		
 		if ( ! $controlador )
-			$controlador = strtolower (\core\Configuracion::$controlador_por_defecto);
+			$controlador = strtolower(\core\Configuracion::$controlador_por_defecto);
 		if ( ! $metodo )
-			$metodo = \core\Configuracion::$metodo_por_defecto;
-		$metodo = strtolower($metodo);
+			$metodo = strtolower(\core\Configuracion::$metodo_por_defecto);
+		
 		
 		// Comprobamos que el usuario tiene permisos. Si no los tiene se redirige hacia otro controlador.
 		if (\core\Usuario::tiene_permiso($controlador, $metodo) === false ) {
@@ -70,17 +80,27 @@ class Clase_Base
 		}
 		*/
 		
+		self::cargar_controlador($controlador, $metodo);
+		
+	}
+	
+	
+	
+	public static function cargar_controlador($controlador, $metodo, array $datos = array()) {
+		
+		
 		
 		$fichero_controlador = strtolower(PATH_APP."controladores/$controlador.php");
 		$controlador_clase = strtolower("\\controladores\\$controlador");
 		if (file_exists($fichero_controlador)) {
 			
 			\core\Aplicacion::$controlador = new $controlador_clase();
-			\core\Aplicacion::$controlador->datos['nombre'] = strtolower($controlador);	
+			\core\Aplicacion::$controlador->datos['controlador_clase'] = strtolower($controlador);	
 			if (method_exists(\core\Aplicacion::$controlador, $metodo))
 			{
+				\core\Aplicacion::$controlador->datos['controlador_metodo'] = strtolower($metodo);
 				\core\Aplicacion::$controlador->$metodo($datos);
-				\core\Aplicacion::$controlador->datos['metodo'] = strtolower($metodo);
+				
 			}
 			else
 			{
@@ -103,12 +123,10 @@ class Clase_Base
 	 * @param array $array
 	 * @return mixed
 	 */
-	public function contenido($indice, $array)
+	public function contenido($indice, array $array)
 	{
 		if ( ! is_string($indice) && ! is_integer($indice))
 			throw new \Exception(__METHOD__." Error: parámetro \$indice=$indice debe ser entero o string");
-		elseif ( ! is_array($array))
-			throw new \Exception(__METHOD__." Error: parámetro \$array debe ser un array");
 		
 		return (array_key_exists($indice, $array) ? $array[$indice] : null);
 	}

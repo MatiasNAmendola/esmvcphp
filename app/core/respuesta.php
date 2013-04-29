@@ -5,8 +5,7 @@ namespace core;
  * Se encarga de enviar la respuesta que se genera en la aplicación.
  * La respuesta será por defecto del tipo MIME 'text/html';
  */
-class Respuesta extends \core\Clase_Base
-{
+class Respuesta extends \core\Clase_Base {
 	/**
 	 *
 	 * @var string Tipo MIME utilizado por defecto.
@@ -39,8 +38,7 @@ class Respuesta extends \core\Clase_Base
 	 * @param type $plantilla
 	 * @throws \Exception
 	 */
-	public static function enviar(array $datos=array(), $plantilla = null)
-	{
+	public static function enviar(array $datos=array(), $plantilla = null) {
 		// Enviar HEAD
 		$fichero = '';
 		$linea = '';

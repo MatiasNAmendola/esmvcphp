@@ -11,10 +11,8 @@
 	<table border='1'>
 		<thead>
 			<tr>
-				<th>categoría</th>
 				<th>nombre</th>
-				<th>precio</th>
-				<th>unidades en stock</th>
+				<th>descripcion</th>
 				<th>acciones</th>
 			</tr>
 		</thead>
@@ -24,21 +22,19 @@
 			{
 				echo "
 					<tr>
-						<td>{$fila['categoria_nombre']}</td>
 						<td>{$fila['nombre']}</td>
-						<td>".\core\Conversiones::decimal_punto_a_coma_y_miles($fila['precio'])."</td>
-						<td>".\core\Conversiones::decimal_punto_a_coma_y_miles($fila['unidades_stock'])."</td>
+						<td>{$fila['descripcion']}</td>
 						<td>
-							<a class='boton' href='?menu=articulos&submenu=form_modificar&id={$fila['id']}' >modificar</a>
-							<a class='boton' href='?menu=articulos&submenu=form_borrar&id={$fila['id']}' >borrar</a>
+							<a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_modificar&id={$fila['id']}' >modificar</a>
+							<a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_borrar&id={$fila['id']}' >borrar</a>
 						</td>
 					</tr>
 					";
 			}
 			echo "
 				<tr>
-					<td colspan='4'></td>
-						<td><a class='boton' href='?menu=articulos&submenu=form_insertar' >insertar</a></td>
+					<td colspan='2'></td>
+						<td><a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_insertar' >insertar</a></td>
 				</tr>
 			";
 			?>

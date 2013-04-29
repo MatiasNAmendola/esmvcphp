@@ -78,10 +78,8 @@ class usuarios extends \core\Controlador
 		$datos['js'][self::js_script_tag(__FUNCTION__)] = true;
 		$datos['js'][self::js_script_lib_tag('jquery/jquery-1.6.4.min.js')] = true;
 		$datos['css'][self::css_link_tag(__FUNCTION__)] = true;
-		print_r($datos);
-		
-		
-		
+		//print_r($datos);
+
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		\core\Respuesta::enviar($datos);
 	}

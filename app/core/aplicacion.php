@@ -12,6 +12,7 @@ class Aplicacion extends \core\Clase_Base
 {
 	
 	public static $controlador;
+
 	
 	public function __construct() {
 		
@@ -26,7 +27,7 @@ class Aplicacion extends \core\Clase_Base
 		// \core\Permisos::iniciar();
 		
 		// Distribuidor
-		self::$controlador = $this->cargar_controlador(\core\CGI::get('menu'),\core\CGI::get('submenu'));
+		$this->distribuidor();
 
 		\core\sgbd\bd::desconectar();
 	}

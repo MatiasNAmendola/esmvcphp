@@ -14,7 +14,7 @@ class Vista extends \core\Clase_Base
 	 */
 	public static function generar($nombre , array $datos = array(), $buffer = true)
 	{
-		$fichero_vista = strtolower(PATH_APP."vistas/".\core\Aplicacion::$controlador->datos['nombre']."/$nombre.php");
+		$fichero_vista = strtolower(PATH_APP."vistas/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre.php");
 		if ( ! file_exists($fichero_vista))
 			throw new \Exception(__METHOD__." Error: no existe el fichero $fichero_vista .");
 		if ($buffer)

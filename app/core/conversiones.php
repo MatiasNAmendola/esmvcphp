@@ -16,10 +16,10 @@ class Conversiones {
 	}
 
 	/**
-	 * Transforma un numero tipos es a numero en formato inglés sin separador de miles.
+	 * Transforma un numero tipo es a numero en formato inglés sin separador de miles.
 	 * 
 	 * @param string $decimal
-	 * @return type
+	 * @return string
 	 */
 	public static function decimal_coma_a_punto($decimal) {
 		$decimal = (string)$decimal;
@@ -59,7 +59,11 @@ class Conversiones {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param decimal|string $decimal
+	 * @return string
+	 */
 	public static function decimal_punto_a_coma_y_miles($decimal) {
 		
 		$decimal=(string)$decimal;

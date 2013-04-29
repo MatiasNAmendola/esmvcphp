@@ -16,24 +16,45 @@ use daw2;
 
 set sql_mode='traditional';
 
-drop table if exists foro_articulos;
-create table if not exists foro_articulos
+drop table if exists foro_categorias;
+create table if not exists foro_categorias
 ( id integer auto_increment
 , nombre varchar(100) not null
-, precio decimal(12,2) null default null
-, unidades_stock decimal(12,2) null default null
+, descripcion varchar(1000) null
 , primary key (id)
 , unique (nombre)
 )
 engine = myisam default charset=utf8
 ;
 
+insert into foro_categorias
+  ( nombre, descripcion ) values
+  ('lacteos', null)
+, ('frutas', null)
+, ('legumbres', null)
+, ('refrescos', null)
+;
+
+drop table if exists foro_articulos;
+create table if not exists foro_articulos
+( id integer auto_increment
+, categoria_nombre varchar(100) not null
+, nombre varchar(100) not null
+, precio decimal(12,2) null default null
+, unidades_stock decimal(12,2) null default null
+, primary key (id)
+, unique (nombre)
+, foreign key (categoria_nombre) references catgegorias(nombre)
+)
+engine = myisam default charset=utf8
+;
+
 insert into foro_articulos
-  ( nombre,precio ) values
-  ('leche', null)
-, ('mantequilla', 12.1234)
-, ('arroz', 1234567890.12)
-, ('zurracapote', 10)
+  ( categoria_nombre, nombre,precio,unidades_stock ) values
+  ('lacteos','leche', 1,500)
+, ('lacteos','mantequilla', 0.5, 300)
+, ('legumbres', 'arroz', 0.90, 500)
+, ('refrescos', 'limonada', 1, 333)
 ;
 
 drop table if exists foro_usuarios;
