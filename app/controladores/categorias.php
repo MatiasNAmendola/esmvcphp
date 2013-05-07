@@ -11,10 +11,20 @@ class categorias extends \core\Controlador {
 	 */
 	public function index(array $datos=array()) {
 		
+		/*
 		$clausulas['order_by'] = 'nombre';
 		$datos["filas"] = \datos\Datos_SQL::select('categorias', $clausulas); // Recupera todas las filas ordenadas
-		$datos = array_merge($datos, $this->datos);
 		
+		*/
+		$sql = "select * from foro_categorias order by nombre;";
+		$resultado = mysqli_query(\core\sgbd\bd::$conexion, $sql);
+		$filas = array();
+		while ($fila = mysqli_fetch_assoc($resultado)) {
+			array_push($filas, $fila);
+		}
+		$datos['filas'] = $filas;
+		
+		$datos = array_merge($datos, $this->datos);
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		\core\Respuesta::enviar($datos);
 		

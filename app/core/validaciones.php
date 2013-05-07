@@ -153,7 +153,7 @@ class Validaciones  {
 	 */
 	public static function evitar_inyeccion_sql($input)
 	{
-		$input = mysql_real_escape_string($input);
+		$input = mysqli_real_escape_string( \core\sgbd\bd::$conexion, $input);
 		// si $datos[$key]==false hay error en la aplicación de los caracteres de escape
 		preg_replace (
 			array('/insert/i' , '/select/i' ,'/update/i' ,'/delete/i' ,'/script/i' ,'/truncate/i','/union/i', '/\;/i'   )
