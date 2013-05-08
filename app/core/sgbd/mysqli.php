@@ -1,8 +1,8 @@
 <?php
 namespace core\sgbd;
 
-class mysqli
-{
+class mysqli {
+	
 	protected static $depuracion = false;
 	public static $conexion;
 	public static $prefix_;
@@ -40,7 +40,7 @@ class mysqli
 	
 	public static function ejecutar_consulta($sql)
 	{
-		if (self::$depuracion) {echo __METHOD__." \$sql=$sql <br />";}
+		if (self::$depuracion) {echo __METHOD__." \$sql = $sql <br />";}
 		
 		self::$resultado = mysqli_query(self::$conexion,$sql);
 		if ( self::$resultado === false)
@@ -102,6 +102,16 @@ class mysqli
 	}
 	
 	
+	
+	
+	public static function insertar($datos, $tabla) {
+	
+		return $this->insert($datos, $tabla);
+		
+	}
+	
+	
+	
 		
 	public static function update($datos , $tabla)
 	{
@@ -121,6 +131,13 @@ class mysqli
 	}
 	
 	
+	public static function modificar($datos, $tabla) {
+	
+		return $this->update($datos, $tabla);
+		
+	}
+	
+	
 	
 	public static function delete($datos , $tabla)
 	{
@@ -135,6 +152,13 @@ class mysqli
 		";
 		
 		return self::ejecutar_consulta($sql);
+	}
+	
+	
+	public static function borrar($datos, $tabla) {
+	
+		return $this->delete($datos, $tabla);
+		
 	}
 	
 	
@@ -178,6 +202,22 @@ class mysqli
 	
 	
 	
+	public static function recuperar(
+			$tabla,
+			array $clausulas = array(
+				'columnas' => '',
+				'where' => '',
+				'group_by' => '',
+				'having' => '',
+				'order_by' => '',
+			)
+	)
+	{
+		return $this->select($tabla, $clausulas);
+	}
+	
+	
+	
 	public static function last_insert_id() {
 		
 		$sql = " select last_insert_id() as id;";
@@ -186,7 +226,6 @@ class mysqli
 		
 		return $filas[0]['id'];
 	}
-	
 	
 	
 } // Fin de la clase
