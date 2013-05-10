@@ -38,7 +38,7 @@
 			echo "
 				<tr>
 					<td colspan='4'></td>
-						<td><a class='boton' href='?menu=articulos&submenu=form_insertar' >insertar</a></td>
+					<td><a class='boton' href='?menu=articulos&submenu=form_insertar' >insertar</a></td>
 				</tr>
 			";
 			?>
