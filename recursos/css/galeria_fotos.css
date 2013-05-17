@@ -1,0 +1,15 @@
+/* 
+    Document   : galeria_fotos
+    Created on : 17-may-2013, 10:33:42
+    Author     : jequeto
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+div#contenido_principal {
+	background-color: yellow;
+}

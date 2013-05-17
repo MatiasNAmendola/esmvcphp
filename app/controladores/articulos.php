@@ -320,4 +320,3 @@ class articulos extends \core\Controlador {
 	
 	
 } // Fin de la clase
-?>

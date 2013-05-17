@@ -18,4 +18,4 @@ $autoloader = new \core\Autoloader();
 // Cargamos la aplicación
 $aplicacion = new \core\Aplicacion();
 
-?>
+// Fin de index.php

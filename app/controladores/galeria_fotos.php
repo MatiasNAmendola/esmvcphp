@@ -24,6 +24,9 @@ class galeria_fotos extends \core\Controlador {
 		  }
 		closedir($dir);
 	
+		$this->js_script_tag('recursos/js/galeria_fotos.js', $datos);
+		$this->css_link_tag('recursos/css/galeria_fotos.css', $datos);
+		
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		\core\Respuesta::enviar($datos);
 		

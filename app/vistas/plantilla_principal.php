@@ -16,6 +16,7 @@
 
 		<link rel="stylesheet" type="text/css" href="" />
 		<?php
+		// Hojas de estilo externas
 		if (isset($datos['css']))
 			foreach ($datos['css'] as $css_link => $value) {
 				echo "$css_link";	
@@ -27,6 +28,7 @@
 
 		<script type="text/javascript" src=""></script>
 		<?php 
+		// Scripts js externos
 		if (isset($datos['js']))
 			foreach ($datos['js'] as $js_script => $value) {
 				echo "$js_script";	
