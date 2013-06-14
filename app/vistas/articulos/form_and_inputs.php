@@ -1,7 +1,9 @@
 
 <form method='post' action="?menu=<?php echo $datos['controlador_clase']; ?>&submenu=validar_<?php echo $datos['controlador_metodo']; ?>" >
 	<input id='id' name='id' type='hidden' value='<?php echo \core\Array_Datos::values('id', $datos); ?>' />
-	Categoría: <select id='categoria_nombre' name='categoria_nombre' />
+	Categoría: 
+	<?php if ( ! $datos['values']['categoria_nombre']) : ?>
+		<select id='categoria_nombre' name='categoria_nombre' />
 		<?php 
 			foreach ($datos['categorias'] as $categoria) {
 				$selected = ($datos['values']['categoria_nombre'] == $categoria['nombre']) ? " selected='selected' " : "";
@@ -9,6 +11,9 @@
 			}
 		?>
 	</select>
+	<?php else : ?>
+		<input id='categoria_nombre' name='categoria_nombre' type='text' size='100'  maxlength='100' readonly='readonly' value='<?php echo \core\Array_Datos::values('categoria_nombre', $datos); ?>'/>
+	<?php endif; ?>
 	<?php echo \core\HTML_Tag::span_error('categoria_nombre', $datos); ?>
 	<br />
 	Nombre: <input id='nombre' name='nombre' type='text' size='100'  maxlength='100' value='<?php echo \core\Array_Datos::values('nombre', $datos); ?>'/>

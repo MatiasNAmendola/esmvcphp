@@ -11,6 +11,11 @@ class articulos extends \core\Controlador {
 	 */
 	public function index(array $datos=array()) {
 		
+		$validaciones = array(
+			"categoria_nombre" => "errores_referencia:categoria_nombre/categorias/nombre"
+		);
+		$validacion = \core\Validaciones::errores_validacion_request($validaciones, $datos);
+		$clausulas['where'] = ($datos['values']['categoria_nombre'] ? " nombre = '{$datos['values']['categoria_nombre']}' " : "");
 		$clausulas['order_by'] = 'nombre';
 		$datos["filas"] = \datos\Datos_SQL::select('articulos', $clausulas); // Recupera todas las filas ordenadas
 		$datos = array_merge($datos, $this->datos);
@@ -21,6 +26,11 @@ class articulos extends \core\Controlador {
 	
 	
 	public function form_insertar(array $datos=array()) {
+		
+		$validaciones = array(
+			"categoria_nombre" => "errores_referencia:categoria_nombre/categorias/nombre"
+		);
+		$validacion = \core\Validaciones::errores_validacion_request($validaciones, $datos);
 		
 		$clausulas['order_by'] = " nombre ";
 		$datos['categorias'] = \datos\Datos_SQL::select('categorias', $clausulas);

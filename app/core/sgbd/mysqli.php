@@ -27,6 +27,8 @@ class mysqli {
 		
 		self::$prefix_ = \core\Configuracion::$mysql['prefix_'];
 		
+		return self::$conexion;
+		
 	}
 	
 	
@@ -157,7 +159,7 @@ class mysqli {
 	
 	public static function borrar($datos, $tabla) {
 	
-		return $this->delete($datos, $tabla);
+		return self::delete($datos, $tabla);
 		
 	}
 	

@@ -32,6 +32,7 @@ class conexiones extends \core\sgbd\bd {
 		}
 		
 		return $filas;
+		
 	}
 	
 	

@@ -11,17 +11,66 @@ class Validaciones  {
 
 	protected static $depuracion = false;
 
-	/**
-	 * Valida el número aleatorio que identifica a un formulario y el método por el que se espera, y opcionalmente el id de la fila que se envió
-	 * sea recibido
-	 * @param string $form_id Id del formulario o __FUNCTION__. Si __FUNCTION__ contiene 'validar_' es reemplazado por ''.
-	 * @return false|array false|array("numero"=>"Descripción error", "metodo"=>"Descripción error")
-	 */
 	
-	public static function request($parametro)
-	{
+	
+	/*******************************************************************/
+	/*                     Métodos auxiliares                          */
+	/*******************************************************************/
+	
+	
+	private static function request($parametro) {
+		
 		return self::evitar_inyeccion_sql(array_key_exists($parametro, $_REQUEST) ? $_REQUEST[$parametro] : null);
+		
 	}
+	
+	
+	/**
+	 * Devuelve el contenido de una entrada de un array si existe, si no existe devuelve null.
+	 * 
+	 * @param type $indice
+	 * @param type $array
+	 * @return type
+	 */
+	private static function contenido($indice , $array ) {
+		
+		return (array_key_exists($indice, $array) ? $array[$indice] : null);		
+		
+	}
+	
+	
+	/**
+	 * Devuelve el conetenido de la entrada $array['values'[$indice] si existe, si no existe devuelve null.
+	 * Está pensado para ser utilizado con el array $datos.
+	 * 
+	 * @param type $indice
+	 * @param type $array
+	 * @return type
+	 */
+	private static function values($indice , $array ) {
+		
+		return ( (array_key_exists('values', $array) and array_key_exists($indice, $array['values'])) ? $array['values'][$indice] : null);		
+		
+	}
+	
+	
+	/**
+	 * Devuelve el conetenido de la entrada $array['errores'[$indice] si existe, si no existe devuelve null.
+	 * Está pensado para ser utilizado con el array $datos.
+	 * 
+	 * @param type $indice
+	 * @param type $array
+	 * @return type
+	 */
+	private static function errores($indice , $array )	{
+		
+		return ( (array_key_exists('errores', $array) and array_key_exists($indice, $array['errores'])) ? $array['errores'][$indice] : null);		
+		
+	}
+	
+	/*******************************************************************/
+	/*******************************************************************/
+	
 	
 
 
@@ -144,6 +193,135 @@ class Validaciones  {
 		else
 			return $resultados_validacion;
 	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Recibe un array de datos y devuelve una fila (array) de para su manipulación en una tabla.
+	 * <br />
+	 * <br />Recibe el array $datos conteniendo en la entrada "values" un array con las columnas susceptibles de validación. Sobre este mismo array devolverá, si los hubiera, los errores de validación de cada columna dentro de la entrada "errores"
+	 * <br /><b>$validaciones</b> Es un array que contiene la colección de columnas y reglas de validación
+	 * <br />El método devuelve false si no hay errores de validación, o un array conteniendo las columnas validadas, que serán la fila de una tabla con la que operar.
+	 * @param array $validaciones
+	 * @param array $datos = array("values"=>array("col1"=>val1,"col2"=>val2, ...), "errores"=>array("col1"=>err1,"col2"=>err2, ...))
+	 * @return false|array = fila = array("col1" => val1, col2=>val2, ...) con contenidos validados.
+	 * @throws \Exception
+	 */
+	public static function validacion_fila( array $validaciones, array &$datos ) {
+		
+		// Array para guardar la validación
+		$resultados_validacion=array("values"=>array(), "errores"=>array()); 
+		
+		// Tratamos cada una de las validaciones del array $validaciones
+		foreach ($validaciones as $columna => $validacion) {
+			if (is_string($columna))
+				$validacion = $columna."=>".$validacion;
+			
+			$validacion = str_replace(' ', '', $validacion); // Quitamos espacios en blanco
+			
+			if ( ! preg_match("/=>/", $validacion)) {
+				$validacion.="=>".(isset(self::$validacion_por_defecto[$validacion])?self::$validacion_por_defecto[$validacion]:'errores_texto');
+			}
+			$partes = explode('=>', $validacion);
+			$parametro = $partes[0];
+			$validadores=$partes[1];
+			$secuencia_validador = explode('&&', $validadores);
+			foreach ($secuencia_validador as $validador) {
+				if (preg_match("/:\(/", $validador)) { // Validacion de lista
+					$validador_partes=explode(":", $validador);
+					$validador=$validador_partes[0];
+					$validador_partes[1]=str_replace(array('(', ')'), '', $validador_partes[1]);
+					if (preg_match("/;/",$validador_partes[1] ))
+						$opciones=explode(";",$validador_partes[1]);
+					else
+						$opciones=explode(",",$validador_partes[1]);
+					$resultados_validacion["values"][$parametro] = values($parametro, $datos); // La función Vector::value(...) devuelve un valor o null
+					$resultado_validador=self::$validador($resultados_validacion["values"][$parametro], $opciones);
+				}
+				elseif (preg_match("/referencia|unicidad/", $validador)) { // Validación de unicidad o referencia
+					$validador_partes = explode(":", $validador);
+					$validador = $validador_partes[0];
+					$parametros_partes = explode("/",$validador_partes[1]);
+					$request_indices = explode(",",$parametros_partes[0]);
+					$tabla = $parametros_partes[1];
+					$tabla_columnas = explode(",",$parametros_partes[2]);
+
+					$valores = array();
+					foreach ($request_indices as $parametro) {
+						$resultados_validacion["values"][$parametro] = values($parametro, $datos); // La función parametro($parametro) devuelve un valor o null
+						array_push($valores,$resultados_validacion["values"][$parametro]);
+					}
+					
+					if (preg_match("/_modificar/i", $validador)) {
+						//if ($request_indices[0] != 'id')
+						if ( ! preg_match("/(^id$|\w{0,}_id$)/", $request_indices[0]))
+							throw new \Exception(__METHOD__." Line: ".__LINE__." <b>Error: parametro $parametro, validador $validador debe contener el la columna id.</b>");
+						$parametro = $request_indices[1]; // Pues el índice 0 es para la primary key que será la columna id
+					}
+					else {
+						$parametro = $request_indices[0];
+					}
+
+					if (self::$depuracion) {
+						print_r($valores); print("/$tabla/ ");print_r($tabla_columnas);print("<br />");
+					}
+					$resultado_validador=self::$validador($valores, $tabla, $tabla_columnas);
+				}
+				elseif (preg_match("/longitud/", $validador)) { // Validación de longitud
+					$validador_partes=explode(":", $validador);
+					$validador=$validador_partes[0];
+					if ( ! isset($validador_partes[1]))
+						throw new \Exception(__METHOD__." Error: errores_$validador debe indicar como mínimo la logitud mínima.");
+					$rangos=explode(",",$validador_partes[1]);
+					
+					$resultados_validacion["values"][$parametro] = values($parametro, $datos);
+					
+					$resultado_validador=self::$validador($resultados_validacion["values"][$parametro], $rangos);
+				}
+				else {
+					// Validación de tipo de datos
+					$resultados_validacion["values"][$parametro] =  values($parametro, $datos);
+					$resultado_validador=self::$validador($resultados_validacion["values"][$parametro]);
+				}
+				if ($resultado_validador) {// La variable $validador contienen el nombre de un método de validación o validador
+					if (isset($resultados_validacion["errores"][$parametro]))
+						$resultados_validacion["errores"][$parametro].=" --php: $validador: ".$resultado_validador;
+					else
+						$resultados_validacion["errores"][$parametro]=" --php: $validador:  ".$resultado_validador;
+				}
+			}
+		}
+		
+		if (self::$depuracion) {
+			echo "<br />\$resultados_validacion=";
+			print_r($resultados_validacion);
+			echo "<!-- ";
+		}
+		
+		// Preparamos el retorno
+		if (count($resultados_validacion["errores"])) { 
+			// Hay errores en la validación
+			$datos['errores']['errores_validacion'] = "Corrige los errores";
+			return false;
+		}			
+		else {
+			return $resultados_validacion;
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	/**

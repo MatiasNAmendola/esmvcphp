@@ -1,5 +1,14 @@
 <div>
-	<h1>Listado de articulos</h1>
+	<h1>Listado de articulos
+		<?php 
+			if ($datos['values']['categoria_nombre']) {
+				echo " de la categoría [{$datos['values']['categoria_nombre']}]";
+			}
+			else {
+				echo " de todas las categorías";
+			}
+		?>
+	</h1>
 	<p>
 		<a href='?menu=articulos&submenu=listado_js' title='Devuelve objeto json con una propiedad que contiene un array'>Listado en json</a> - 
 		<a href='?menu=articulos&submenu=listado_js_array&nombre=a'  title='Devuelve un array que contiene objetos json'>Listado en json con array de articulos que contiene "a" en su nombre</a> - 
@@ -8,6 +17,7 @@
 		 - 
 		<a href='?menu=articulos&submenu=listado_pdf'>Descargar pdf</a>
 	</p>
+	
 	<table border='1'>
 		<thead>
 			<tr>
@@ -38,7 +48,7 @@
 			echo "
 				<tr>
 					<td colspan='4'></td>
-					<td><a class='boton' href='?menu=articulos&submenu=form_insertar' >insertar</a></td>
+					<td><a class='boton' href='?menu=articulos&submenu=form_insertar".($datos['values']['categoria_nombre'] ? "&categoria_nombre={$datos['values']['categoria_nombre']}": "")."' >insertar</a></td>
 				</tr>
 			";
 			?>

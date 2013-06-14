@@ -4,9 +4,9 @@
 	<table border='1'>
 		<thead>
 			<tr>
-				<th>fecha_hora_inicio']}</td>
-				<th>usuarios_login']}</td>
-				<th>duracion_minutos']}</td>
+				<th>fecha_hora_inicio</td>
+				<th>usuarios_login</td>
+				<th>duracion_minutos</td>
 				
 			</tr>
 		</thead>
